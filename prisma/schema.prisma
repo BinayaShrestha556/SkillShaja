@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,20 +7,100 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Course {
+  id          String         @id @default(cuid())
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
+  description String
+  name        String
+  paid        Boolean
+  videos      Video[]
+  likes       Like[]
+  subscribers Subscription[] @relation("UserSubscribedTo")
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  imageId     String         @unique
+  image       Image          @relation("imagesToCourse", fields: [imageId], references: [id])
+}
+
+model Video {
+  id          String   @id @default(cuid())
+  thumbnailId String   @unique
+  thumbnail   Image    @relation("imageToVideo", fields: [thumbnailId], references: [id])
+  videoUrl    String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Image {
+  id        String   @id @default(cuid())
+  url       String
+  video     Video?   @relation("imageToVideo")
+  course    Course?  @relation("imagesToCourse")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  follower    User     @relation("followers", fields: [followerId], references: [id])
+  following   User     @relation("following", fields: [followingId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Subscription {
+  id             String   @id @default(cuid())
+  subscriberId   String
+  subscribedToId String
+  subscriber     User     @relation("UserSubscribers", fields: [subscriberId], references: [id])
+  subscribedTo   Course   @relation("UserSubscribedTo", fields: [subscribedToId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  likedById String
+  likedBy   User     @relation(fields: [likedById], references: [id])
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+}
+
 model User {
   id            String          @id @default(cuid())
   name          String?
   email         String          @unique
+  courses       Course[]
   emailVerified DateTime?
   image         String?
+  followers     Follow[]        @relation("following")
+  following     Follow[]        @relation("followers")
+  subscriptions Subscription[]  @relation("UserSubscribers")
+  videos        Video[]
   accounts      Account[]
+  liked         Like[]
   sessions      Session[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
   password      String?
+  role          ROLE            @default(USER)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum ROLE {
+  ADMIN
+  USER
+  MOD
 }
 
 model Account {
@@ -41,11 +115,9 @@ model Account {
   scope             String?
   id_token          String?
   session_state     String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([provider, providerAccountId])
 }
@@ -55,9 +127,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model VerificationToken {

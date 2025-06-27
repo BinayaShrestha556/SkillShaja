@@ -1,0 +1,131 @@
+import React from "react";
+
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowDown } from "lucide-react";
+import { Button } from "./ui/button";
+
+// Assuming your image is in the public folder
+
+const LandingPage = () => {
+  return (
+    <div
+      className="relative w-full  flex flex-col scroll-smooth justify-center items-center text-foreground "
+      // overflow-hidden is good practice to prevent blur edges from showing outside
+    >
+      <div className="absolute inset-0 z-0  scroll-smooth">
+        {/* Semi-transparent overlay for better text visibility */}
+        <div className="flex w-full h-[100dvh] p-10 ">
+          <div className="flex-1 h-full relative rounded-2xl overflow-hidden ">
+            <Image
+              src="/teamwork.jpeg"
+              alt="clip art with team work illustration"
+              fill
+              className="object-cover object-center p-10"
+            />
+          </div>
+          <div className="relative z-20 text-center p-4 h-full w-full flex flex-col flex-1 items-center justify-center">
+            <h1 className="text-7xl font-bold text-foreground text-shadow-lg">
+              Share And Learn, <br />
+              <span className="text-secondary-foreground">
+                One Skill at a Time.
+              </span>
+            </h1>
+            <p className="text-muted-foreground   text-lg md:text-xl ">
+              A platform to share your ideas and pictures with the world.
+            </p>
+
+            <Link
+              href="#_"
+              className="relative inline-flex mt-10 items-center justify-center p-4 px-12 py-5 bg-primary overflow-hidden font-medium  transition hover:border-accent-foreground duration-500 ease-out border border-primary rounded-full shadow-md group animate-fade-up animate-delay-300 animation-duration-700"
+            >
+              <span className="absolute inset-0 flex items-center justify-center w-full h-full text-primary duration-300 -translate-x-full bg-accent group-hover:translate-x-0 ease">
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </span>
+              <span className="absolute flex items-center justify-center w-full h-full text-primary-foreground transition-all duration-300 transform group-hover:translate-x-full ease">
+                Explore{" "}
+                <svg
+                  className="w-6 h-6 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  ></path>
+                </svg>
+              </span>
+              <span className="relative invisible">Explore </span>
+            </Link>
+            <Link href="#2" className="-ml-12">
+              <ArrowDown
+                size={45}
+                className="absolute bottom-10 hover:text-primary transition duration-300 cursor-pointer p-1.5"
+              />
+            </Link>
+          </div>
+        </div>
+        <div className="bg-accent z-10 h-[100dvh] flex items-center gap-20 justify-center w-full p-20">
+          {/* Left Column: Image Container (flex-1) */}
+          <div className="flex-1 relative h-full  rounded-[50px]">
+            <Image
+              id="2"
+              src="/2nd_part.jpeg" // Make sure this path is correct relative to your public folder
+              alt="Descriptive alt text for the image"
+              fill
+              className="object-center object-cover z-10 rounded-4xl" // z-10 ensures it's above the z-0 shadow
+              priority // Prioritize loading for above-the-fold images
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+
+          {/* Right Column: Your other content (flex-1) */}
+          <div className="flex-1 text-left items-center  p-4">
+            <h1 className="text-5xl md:text-6xl font-extrabold text-accent-foreground mb-4">
+              Unlock Your Potential
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground">
+              Beyond textbooks, beyond traditional classrooms, lies a world of
+              knowledge waiting to be shared and mastered. SkillSajha is your
+              platform, a vibrant community where every lesson learned, every
+              skill shared, empowers you to grow. Share your expertise, learn
+              from passionate mentors, and discover a universe of possibilities.
+            </p>
+            <div className="flex gap-4 mt-8">
+              {" "}
+              <Button size={"lg"} className="rounded-xl animate-pulse">
+                Register
+              </Button>{" "}
+              <Button
+                size={"lg"}
+                variant={"ghost"}
+                className="rounded-xl underline px-2"
+              >
+                signin
+              </Button>{" "}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LandingPage;

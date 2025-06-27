@@ -1,11 +1,10 @@
-import { signIn } from "@/auth";
-import LoginForm from "@/components/auth/login/login-form";
+import RegisterForm from "@/components/auth/login/register-form";
 import React from "react";
 
 const page = () => {
   return (
     <div className="w-1/3 m-auto">
-      <LoginForm />
+      <RegisterForm />
     </div>
   );
 };

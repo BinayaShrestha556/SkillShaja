@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import LogoutButton from "@/components/ui/logout-button";
+import LandingPage from "@/components/landingpage";
 import prisma from "@/lib/db/db";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -6,10 +8,14 @@ import React from "react";
 const page = async () => {
   const session = await auth();
 
-  if (!session) redirect("/signin");
+  if (!session) return <LandingPage />;
+
   return (
     <>
-      <h1>signed in as: {session.user?.name}</h1>
+      <h1>
+        logged in
+        <LogoutButton />
+      </h1>
     </>
   );
 };
