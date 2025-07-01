@@ -20,7 +20,7 @@ export default async function RootLayout({
       <body className={` antialiased`}>
         <SessionProvider>
           <Navbar />
-          {children}
+          <main className="mt-14">{children}</main>
         </SessionProvider>
       </body>
     </html>

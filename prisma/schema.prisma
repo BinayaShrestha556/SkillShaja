@@ -25,6 +25,7 @@ model Course {
 
 model Video {
   id          String   @id @default(cuid())
+  title       String
   thumbnailId String   @unique
   thumbnail   Image    @relation("imageToVideo", fields: [thumbnailId], references: [id])
   videoUrl    String

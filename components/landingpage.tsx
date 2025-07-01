@@ -35,8 +35,8 @@ const LandingPage = () => {
               A platform to share your ideas and pictures with the world.
             </p>
 
-            <Link
-              href="#_"
+            <a
+              href="/explore"
               className="relative inline-flex mt-10 items-center justify-center p-4 px-12 py-5 bg-primary overflow-hidden font-medium  transition hover:border-accent-foreground duration-500 ease-out border border-primary rounded-full shadow-md group animate-fade-up animate-delay-300 animation-duration-700"
             >
               <span className="absolute inset-0 flex items-center justify-center w-full h-full text-primary duration-300 -translate-x-full bg-accent group-hover:translate-x-0 ease">
@@ -73,7 +73,7 @@ const LandingPage = () => {
                 </svg>
               </span>
               <span className="relative invisible">Explore </span>
-            </Link>
+            </a>
             <Link href="#2" className="-ml-12">
               <ArrowDown
                 size={45}
@@ -85,6 +85,23 @@ const LandingPage = () => {
         <div className="bg-accent z-10 h-[100dvh] flex items-center gap-20 justify-center w-full p-20">
           {/* Left Column: Image Container (flex-1) */}
           <div className="flex-1 relative h-full  rounded-[50px]">
+            {/*
+          1. The "Shadow" Div - Placed first in JSX to be visually behind
+          the Image by default, but explicitly controlled by z-index.
+          Matches the parent's rounded corners.
+        */}
+            <div
+              className="absolute inset-0 translate-x-10 translate-y-10 bg-black/80  rounded-[50px] z-10"
+              // bg-black/50: Black color with 50% opacity
+              // rounded-[50px]: Matches the parent container's border-radius for the shadow shape
+              // z-0: Ensures it's at the back
+              // blur-lg: Applies a blur filter to the shadow itself, making it softer
+            ></div>
+
+            {/*
+          2. The Image Itself - Sits on top of the shadow.
+          Needs a higher z-index to ensure it's visible over the shadow.
+        */}
             <Image
               id="2"
               src="/2nd_part.jpeg" // Make sure this path is correct relative to your public folder
@@ -110,16 +127,23 @@ const LandingPage = () => {
             </p>
             <div className="flex gap-4 mt-8">
               {" "}
-              <Button size={"lg"} className="rounded-xl animate-pulse">
-                Register
-              </Button>{" "}
-              <Button
-                size={"lg"}
-                variant={"ghost"}
-                className="rounded-xl underline px-2"
-              >
-                signin
-              </Button>{" "}
+              <a href="/signup" className="cursor-pointer">
+                <Button
+                  size={"lg"}
+                  className="rounded-xl cursor-pointer animate-pulse"
+                >
+                  Register
+                </Button>{" "}
+              </a>
+              <a href="/signin" className="cursor-pointer">
+                <Button
+                  size={"lg"}
+                  variant={"ghost"}
+                  className="rounded-xl cursor-pointer underline px-2"
+                >
+                  signin
+                </Button>{" "}
+              </a>
             </div>
           </div>
         </div>

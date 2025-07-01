@@ -21,11 +21,15 @@ const Navbar = () => {
         />
       </div>
       <div className="flex items-center gap-3 ">
-        <Button className="rounded-xl" size="lg">
-          {" "}
-          Login
-        </Button>
-        <Button variant="ghost">Signup</Button>
+        <a href="/signin">
+          <Button className="rounded-xl" size="lg">
+            {" "}
+            Login
+          </Button>
+        </a>
+        <a href="/signup">
+          <Button variant="ghost">Signup</Button>
+        </a>
       </div>
     </nav>
   );
