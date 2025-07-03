@@ -38,6 +38,7 @@ export default function VideoUpload({
   const handleUploadEvents = async (event: any) => {
     console.log(event);
     if (media === "image") {
+      console.log(event.info.public_id);
       onChange(event.info.public_id);
       const image = await getUrl(event.info.public_id, "image");
       setImageUrl(image);

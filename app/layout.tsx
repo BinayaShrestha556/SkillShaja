@@ -4,6 +4,7 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Navbar from "@/components/navbar/main";
+import Footer from "@/components/footer/footer";
 
 export const metadata: Metadata = {
   title: "SkillSajha",
@@ -22,6 +23,7 @@ export default async function RootLayout({
           <Navbar />
           <main className="mt-14">{children}</main>
         </SessionProvider>
+        <Footer />
       </body>
     </html>
   );
