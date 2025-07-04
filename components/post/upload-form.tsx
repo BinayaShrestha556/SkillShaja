@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import {
   Form,
@@ -17,6 +17,7 @@ import VideoUpload from "../upload/videoUpload";
 import { PlusCircle } from "lucide-react";
 import { formSchema } from "@/lib/schema";
 import { upload } from "@/server-actions/videoUpload";
+import { Switch } from "../ui/switch";
 
 const UploadForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -26,9 +27,15 @@ const UploadForm = () => {
       thumbnail: "",
       title: "",
       videos: [],
+      paid: false,
+      price: 0,
     },
   });
   const { control, setValue } = form;
+  const paid = useWatch({
+    control,
+    name: "paid",
+  });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "videos",
@@ -190,7 +197,44 @@ const UploadForm = () => {
               Add video
             </div>
           </div>
-
+          <FormField
+            name="paid"
+            control={control}
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 shadow-sm">
+                <div className="space-y-0.5">
+                  <FormLabel>Premium</FormLabel>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {paid && (
+            <FormField
+              name="price"
+              control={control}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Enter price"
+                      value={field.value ?? ""}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <Button type="submit" className="w-full">
             Submit Course
           </Button>

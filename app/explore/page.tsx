@@ -49,6 +49,7 @@ const page = async () => {
   return (
     <div className="w-[90%] m-auto pt-2">
       <Grid data={exploreCourses} title="Polular Courses" />
+      <div className="h-5 w-full "></div>
       <Grid data={for_you_courses} title="For You" />
     </div>
   );

@@ -40,6 +40,8 @@ export const upload = async (object: z.infer<typeof formSchema>) => {
         thumbnail: courseThumbnailId,
         title,
         description,
+        paid,
+        price,
       } = formattedData;
 
       if (!videos || !courseThumbnailId || !title || !description)
@@ -56,8 +58,9 @@ export const upload = async (object: z.infer<typeof formSchema>) => {
         data: {
           name: title,
           description,
-          paid: false, // or true, depending on logic
+          paid, // or true, depending on logic
           userId,
+          price: price,
           imageId: courseImage.id,
           videos: {
             create: await Promise.all(

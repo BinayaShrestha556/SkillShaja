@@ -14,6 +14,7 @@ model Course {
   description String
   name        String
   paid        Boolean
+  price       Int            @default(0)
   videos      Video[]
   likes       Like[]
   subscribers Subscription[] @relation("UserSubscribedTo")

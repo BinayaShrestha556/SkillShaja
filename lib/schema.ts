@@ -21,5 +21,7 @@ export const formSchema = z.object({
   thumbnail: z.string().optional(),
   title: z.string().min(1),
   description: z.string().min(1),
+  paid: z.boolean(),
+  price: z.number().optional(),
 });
 export { loginSchema };

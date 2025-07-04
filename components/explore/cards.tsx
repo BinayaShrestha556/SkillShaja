@@ -19,6 +19,7 @@ const Cards: React.FC<
   userId,
   image,
   user,
+  price,
   _count,
 }) => {
   const urlResponse = await fetch(
@@ -28,19 +29,30 @@ const Cards: React.FC<
   console.log(urlResponseParsed);
   const url = urlResponseParsed.url;
   return (
-    <div className="w-full flex flex-col relative bg-card border p-2 rounded-3xl overflow-hidden hover:scale-[103%] hover:shadow-2xl cursor-pointer transition-all duration-200 ">
-      <div className="relative w-full h-52 ">
+    <div className="w-full flex flex-col relative bg-card  shadow-accent p-3 rounded-3xl overflow-hidden hover:scale-[103%] hover:shadow-2xl cursor-pointer transition-all duration-200 ">
+      <div className="relative w-full h-56 ">
         <Image
           src={url}
           alt="course thumbnail"
           fill
-          className="object-cover object-center"
+          className="object-cover object-center rounded-2xl"
         />
+        <div
+          className={cn(
+            "absolute right-2 top-2 rounded-xl  px-2 text-xs py-1 ",
+            paid
+              ? "bg-accent text-accent-foreground"
+              : "bg-green-200 border text-green-600"
+          )}
+        >
+          {" "}
+          {paid ? "$ " + price : "free"}
+        </div>
       </div>
 
-      <div className="p-2 py-3 h-36">
+      <div className=" pt-3 ">
         <div className="relative flex gap-1 items-center">
-          <div className="relative rounded-lg border p-1">
+          <div className="relative rounded-xl border p-1">
             <Image
               width={35}
               height={35}
@@ -64,10 +76,12 @@ const Cards: React.FC<
             </span>
           </div>
         </div>
-        <h3 className="text-lg antialiased font-semibold mt-2">{name}</h3>
-        <p className="text-sm text-muted-foreground -mt-0.5 truncate line-clamp-2 text-wrap">
-          {description}
-        </p>
+        <div className="rounded-2xl  p-2 mt-2 border">
+          <h3 className=" antialiased font-semibold ">{name}</h3>
+          <p className="text-sm text-muted-foreground -mt-0.5 truncate line-clamp-2 text-wrap">
+            {description}
+          </p>
+        </div>
       </div>
     </div>
   );
