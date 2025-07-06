@@ -33,6 +33,15 @@ export async function GET(req: NextRequest) {
     const url = cloudinary.url(videoId, {
       resource_type: media,
       type: "authenticated",
+      format: media === "video" ? "m3u8" : "png",
+      sign_url: true,
+      secure: true,
+      expires_at: expiresAt,
+    });
+    const thumbnail = cloudinary.url(`${videoId}.jpg`, {
+      resource_type: "video",
+      type: "authenticated",
+
       sign_url: true,
       secure: true,
       expires_at: expiresAt,
@@ -40,6 +49,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         url,
+        thumbnail,
       },
       { status: 200 }
     );

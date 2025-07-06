@@ -2,6 +2,7 @@ import { cn, formatTimeAgo } from "@/lib/utils";
 import { Course, Image as Images } from "@prisma/client";
 import { Heart } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Cards: React.FC<
@@ -29,7 +30,10 @@ const Cards: React.FC<
   console.log(urlResponseParsed);
   const url = urlResponseParsed.url;
   return (
-    <div className="w-full flex flex-col relative bg-card  shadow-accent p-3 rounded-3xl overflow-hidden hover:scale-[103%] hover:shadow-2xl cursor-pointer transition-all duration-200 ">
+    <Link
+      href={`/course/${id}`}
+      className="w-full flex flex-col relative bg-card  shadow-accent p-3 rounded-3xl overflow-hidden hover:scale-[103%] hover:shadow-2xl cursor-pointer transition-all duration-200 "
+    >
       <div className="relative w-full h-56 ">
         <Image
           src={url}
@@ -83,7 +87,7 @@ const Cards: React.FC<
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

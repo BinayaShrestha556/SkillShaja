@@ -25,17 +25,34 @@ model Course {
 }
 
 model Video {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
-  thumbnailId String   @unique
-  thumbnail   Image    @relation("imageToVideo", fields: [thumbnailId], references: [id])
+  description String
+  thumbnailId String    @unique
+  thumbnail   Image     @relation("imageToVideo", fields: [thumbnailId], references: [id])
   videoUrl    String
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
   courseId    String
-  course      Course   @relation(fields: [courseId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  course      Course    @relation(fields: [courseId], references: [id])
+  comments    Comment[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Comment {
+  id       String    @id @default(uuid()) // Prisma uses strings for ObjectId by default
+  content  String
+  videoId  String
+  video    Video     @relation(fields: [videoId], references: [id])
+  replies  Comment[] @relation("CommentReplies")
+  parentId String? // Nullable for top-level comments
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  ownerId  String
+  owner    User      @relation(fields: [ownerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Image {
@@ -78,25 +95,40 @@ model Like {
 }
 
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  courses       Course[]
-  emailVerified DateTime?
-  image         String?
-  followers     Follow[]        @relation("following")
-  following     Follow[]        @relation("followers")
-  subscriptions Subscription[]  @relation("UserSubscribers")
-  videos        Video[]
-  accounts      Account[]
-  liked         Like[]
-  sessions      Session[]
-  // Optional for WebAuthn support
-  Authenticator Authenticator[]
-  password      String?
-  role          ROLE            @default(USER)
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id             String          @id @default(cuid())
+  name           String?
+  email          String          @unique
+  courses        Course[]
+  emailVerified  DateTime?
+  image          String?
+  followers      Follow[]        @relation("following")
+  following      Follow[]        @relation("followers")
+  subscriptions  Subscription[]  @relation("UserSubscribers")
+  videos         Video[]
+  accounts       Account[]
+  liked          Like[]
+  sessions       Session[]
+  comments       Comment[]
+  Authenticator  Authenticator[]
+  password       String?
+  paymentDetails Payment?        @relation("UserPayment") // optional 1:1
+  role           ROLE            @default(USER)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  method    PaymentMethod
+  accountNo String
+  userId    String        @unique
+  user      User          @relation("UserPayment", fields: [userId], references: [id])
+}
+
+enum PaymentMethod {
+  esewa
 }
 
 enum ROLE {
