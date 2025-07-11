@@ -10,10 +10,10 @@ import { Button } from "./ui/button";
 const LandingPage = () => {
   return (
     <div
-      className="relative w-full  flex flex-col scroll-smooth justify-center items-center text-foreground "
+      className=" w-full h-fit  flex flex-col scroll-smooth justify-center items-center text-foreground "
       // overflow-hidden is good practice to prevent blur edges from showing outside
     >
-      <div className="absolute inset-0 z-0  scroll-smooth">
+      <div className=" inset-0 z-0  scroll-smooth">
         {/* Semi-transparent overlay for better text visibility */}
         <div className="flex w-full h-[100dvh] p-10 ">
           <div className="flex-1 h-full relative rounded-2xl overflow-hidden ">

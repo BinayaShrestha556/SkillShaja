@@ -8,16 +8,14 @@ import React from "react";
 const page = async () => {
   const session = await auth();
 
-  if (!session) return <LandingPage />;
+  if (!session)
+    return (
+      <div>
+        <LandingPage />
+      </div>
+    );
 
-  return (
-    <>
-      <h1>
-        logged in
-        <LogoutButton />
-      </h1>
-    </>
-  );
+  redirect("/explore");
 };
 
 export default page;

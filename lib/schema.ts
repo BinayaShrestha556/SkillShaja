@@ -13,6 +13,7 @@ export const formSchema = z.object({
   videos: z
     .object({
       videoId: z.string().min(1),
+      description: z.string().min(1),
       defaultThumbnail: z.string(),
       thumbnail: z.string().min(1).optional(),
       title: z.string().min(1),

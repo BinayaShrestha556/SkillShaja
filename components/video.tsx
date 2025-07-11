@@ -70,7 +70,7 @@ export default function SecureVideoPlayer({ src }: { src: string }) {
   };
 
   return (
-    <div className="relative w-full max-w-3xl mx-auto  rounded-lg overflow-hidden ">
+    <div className="relative w-full mx-auto  rounded-lg overflow-hidden ">
       <video
         ref={videoRef}
         className="w-full"

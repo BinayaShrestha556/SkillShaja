@@ -9,9 +9,9 @@ type uploadProps = {
   title: string;
   videos: {
     videoId: string;
-
+    description: string;
     title: string;
-    thumbnail: string;
+    thumbnail?: string;
   }[];
   description: string;
   thumbnail?: string;
@@ -23,18 +23,6 @@ export const upload = async (object: z.infer<typeof formSchema>) => {
       const userId = session?.user?.id; // provided from session or params
       if (!userId) throw new Error("User not authenticated");
 
-      const formattedVideos = object.videos.map((e) => {
-        if (e.thumbnail)
-          return { thumbnail: e.thumbnail, videoId: e.videoId, title: e.title };
-        else
-          return {
-            thumbnail: e.defaultThumbnail,
-            videoId: e.videoId,
-            title: e.title,
-          };
-      });
-      const formattedData = { ...object, videos: formattedVideos };
-
       const {
         videos,
         thumbnail: courseThumbnailId,
@@ -42,7 +30,7 @@ export const upload = async (object: z.infer<typeof formSchema>) => {
         description,
         paid,
         price,
-      } = formattedData;
+      } = object;
 
       if (!videos || !courseThumbnailId || !title || !description)
         throw new Error("provide all data");
@@ -65,6 +53,13 @@ export const upload = async (object: z.infer<typeof formSchema>) => {
           videos: {
             create: await Promise.all(
               videos.map(async (video) => {
+                if (!video.thumbnail)
+                  return {
+                    videoUrl: video.videoId,
+                    description: video.description,
+                    title: video.title,
+                    userId,
+                  };
                 const thumbnailImage = await prisma.image.create({
                   data: {
                     url: video.thumbnail,
@@ -73,6 +68,8 @@ export const upload = async (object: z.infer<typeof formSchema>) => {
 
                 return {
                   videoUrl: video.videoId,
+                  description: video.description,
+
                   title: video.title,
                   userId,
                   thumbnailId: thumbnailImage.id,

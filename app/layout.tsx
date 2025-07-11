@@ -18,12 +18,12 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={` antialiased`}>
+      <body className={``}>
         <SessionProvider>
           <Navbar />
           <main className="mt-14">{children}</main>
+          <Footer />
         </SessionProvider>
-        <Footer />
       </body>
     </html>
   );

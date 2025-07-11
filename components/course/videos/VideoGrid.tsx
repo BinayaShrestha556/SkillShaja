@@ -5,16 +5,18 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { fetchUrl } from "@/lib/utils";
+import { cn, fetchUrl } from "@/lib/utils";
 import { Video } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 interface VideoGridProps {
   videos: Video[];
+  selectedId?: string;
 }
 
-const VideoGrid: React.FC<VideoGridProps> = ({ videos }) => {
+const VideoGrid: React.FC<VideoGridProps> = ({ videos, selectedId }) => {
   const [thumbnails, setThumbnails] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -67,32 +69,37 @@ const VideoGrid: React.FC<VideoGridProps> = ({ videos }) => {
     //   ))}
     // </div>
     <Carousel className="w-full" opts={{ align: "start" }}>
-      <CarouselContent className="mt-3 p-2">
+      <CarouselContent className=" p-2">
         {videos.map((video, index) => (
           <CarouselItem
             key={index}
-            className="basis-1/4 p-2 ml-2  rounded-[26px] hover:border hover:shadow-2xl"
+            className={cn(
+              "basis-1/4 p-2 ml-2   rounded-[26px] hover:border hover:shadow-2xl",
+              selectedId && selectedId === video.id && "bg-accent shadow"
+            )}
           >
-            <div className="w-full h-56 relative">
-              {thumbnails[video.id] ? (
-                <Image
-                  src={thumbnails[video.id]}
-                  alt={`Thumbnail of ${video.title}`}
-                  fill
-                  className="object-cover object-center rounded-[18px]"
-                />
-              ) : (
-                <div className="w-full h-full animate-pulse bg-gray-200" />
-              )}
-            </div>
-            <div className="p-1 mt-1">
-              <h3 className="font-semibold mt-2 line-clamp-1 ">
-                {video.title}
-              </h3>
-              <p className="text-sm text-muted-foreground line-clamp-2 ">
-                {video.description}
-              </p>
-            </div>
+            <Link href={`/videos?id=${video.id}`}>
+              <div className="w-full h-48 relative">
+                {thumbnails[video.id] ? (
+                  <Image
+                    src={thumbnails[video.id]}
+                    alt={`Thumbnail of ${video.title}`}
+                    fill
+                    className="object-cover object-center rounded-[18px]"
+                  />
+                ) : (
+                  <div className="w-full h-full animate-pulse bg-gray-200" />
+                )}
+              </div>
+              <div className="p-1 mt-1">
+                <h3 className="font-semibold mt-2 line-clamp-1 ">
+                  {video.title}
+                </h3>
+                <p className="text-sm text-muted-foreground line-clamp-2 ">
+                  {video.description}
+                </p>
+              </div>
+            </Link>
           </CarouselItem>
         ))}
       </CarouselContent>

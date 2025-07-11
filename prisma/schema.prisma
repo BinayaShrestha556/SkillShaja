@@ -28,8 +28,8 @@ model Video {
   id          String    @id @default(cuid())
   title       String
   description String
-  thumbnailId String    @unique
-  thumbnail   Image     @relation("imageToVideo", fields: [thumbnailId], references: [id])
+  thumbnailId String?   @unique
+  thumbnail   Image?    @relation("imageToVideo", fields: [thumbnailId], references: [id])
   videoUrl    String
   userId      String
   user        User      @relation(fields: [userId], references: [id])
@@ -111,20 +111,25 @@ model User {
   comments       Comment[]
   Authenticator  Authenticator[]
   password       String?
-  paymentDetails Payment?        @relation("UserPayment") // optional 1:1
+  paymentDetails Payment[]       @relation("UserPayment") // optional 1:1
   role           ROLE            @default(USER)
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
 }
 
 model Payment {
-  id        String        @id @default(cuid())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  method    PaymentMethod
-  accountNo String
-  userId    String        @unique
-  user      User          @relation("UserPayment", fields: [userId], references: [id])
+  id              String        @id @default(cuid())
+  userId          String
+  productId       String
+  amount          Float
+  method          PaymentMethod @default(esewa) // e.g., "esewa"
+  transactionUuid String        @unique
+  status          String // "PENDING" | "SUCCESS" | "FAILED"
+  responseData    Json?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  user User @relation("UserPayment", fields: [userId], references: [id])
 }
 
 enum PaymentMethod {
