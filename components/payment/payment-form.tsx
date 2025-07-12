@@ -1,7 +1,8 @@
 // /src/components/EsewaPAyment.tsx
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 interface EsewaPaymentProps {
   amount: number;
   courseId: string;
@@ -12,6 +13,9 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
     email: "",
     amount: 0,
   });
+  const session = useSession();
+  const userName = session.data?.user?.name;
+  const email = session.data?.user?.email;
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -25,6 +29,7 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          courseId,
           name: formData.name,
           email: formData.email,
           amount: Number(formData.amount.toFixed(2)),
@@ -62,11 +67,8 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
       addField("product_delivery_charge", params.product_delivery_charge);
       addField("signed_field_names", params.signed_field_names);
       addField("signature", params.signature);
-      addField(
-        "success_url",
-        params.success_url +
-          `?transaction_uuid=${params.transaction_uuid}&total_amount=${params.total_amount}&productId=${courseId}}`
-      );
+      addField("success_url", params.success_url);
+
       addField("failure_url", params.failure_url);
 
       document.body.appendChild(form);
@@ -77,6 +79,9 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
       setIsSubmitting(false);
     }
   };
+  useEffect(() => {
+    setFormData({ name: userName || "", amount, email: email || "" });
+  }, []);
 
   return (
     <div className="fixed inset-0 bg-white bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -88,8 +93,10 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
             <label className="block text-sm font-medium mb-1">Full Name</label>
             <input
               type="text"
-              value={amount}
-              disabled
+              value={formData.name}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className="w-full p-2 border rounded-md"
               name="name"
               required

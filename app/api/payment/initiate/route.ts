@@ -5,13 +5,18 @@
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { generateEsewaSignature } from "@/lib/verifySignature";
+import prisma from "@/lib/db/db";
+import { auth } from "@/auth";
 
 export async function POST(req: Request) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) return NextResponse.json({ error: "not logged in" });
   try {
-    const { amount, name, email } = await req.json();
+    const { amount, name, email, courseId } = await req.json();
 
     // Validate inputs
-    if (!amount || !name || !email) {
+    if (!amount || !name || !email || !courseId) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -37,7 +42,20 @@ export async function POST(req: Request) {
     ].join(",");
 
     const signature = generateEsewaSignature(message);
-
+    await prisma.payment.create({
+      data: {
+        amount: baseAmount,
+        email,
+        method: "esewa",
+        productId: courseId,
+        name,
+        status: "PENDING",
+        transactionUuid,
+        esewaSignature: signature,
+        signedFieldNames: message,
+        userId,
+      },
+    });
     return NextResponse.json({
       paymentUrl: `${process.env.ESEWA_BASE_URL}/api/epay/main/v2/form`,
       params: {
@@ -47,7 +65,7 @@ export async function POST(req: Request) {
         product_service_charge: "0.00",
         product_delivery_charge: "0.00",
         transaction_uuid: transactionUuid,
-        product_code: process.env.ESEWA_MERCHANT_ID!,
+        product_code: process.env.ESEWA_MERCHANT_ID,
         signature,
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/success`,
         failure_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/failure`,

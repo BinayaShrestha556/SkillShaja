@@ -3,12 +3,13 @@ import prisma from "@/lib/db/db";
 import { notFound } from "next/navigation";
 
 interface QueryTypes {
-  params: {
+  searchParams: Promise<{
     courseId: string;
-  };
+  }>;
 }
-const Page: React.FC<QueryTypes> = async ({ params }) => {
-  const { courseId } = await params;
+const Page: React.FC<QueryTypes> = async ({ searchParams }) => {
+  const { courseId } = await searchParams;
+  console.log(courseId);
   const course = await prisma.course.findUnique({
     where: { id: courseId },
   });

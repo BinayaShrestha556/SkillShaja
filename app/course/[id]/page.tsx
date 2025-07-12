@@ -9,6 +9,7 @@ import { RiSave2Line } from "react-icons/ri";
 import { BiAddToQueue } from "react-icons/bi";
 import AddToWatchLaterButton from "@/components/course/addToWatchLaterButton";
 import VideoGrid from "@/components/course/videos/VideoGrid";
+import Link from "next/link";
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const course = await prisma.course.findUnique({
@@ -68,7 +69,9 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             </span>
             <AddToWatchLaterButton />
             {course.paid ? (
-              <Button size={"lg"}>Buy at just Rs. {course.price}!</Button>
+              <Link href={`/payment?courseId=${course.id}`}>
+                <Button size={"lg"}>Buy at just Rs. {course.price}!</Button>
+              </Link>
             ) : (
               <span className="px-3 py-1 rounded-xl bg-green-100 border text-sm font-semibold border-green-200 text-green-600">
                 Free

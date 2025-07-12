@@ -118,23 +118,45 @@ model User {
 }
 
 model Payment {
-  id              String        @id @default(cuid())
-  userId          String
-  productId       String
-  amount          Float
-  method          PaymentMethod @default(esewa) // e.g., "esewa"
-  transactionUuid String        @unique
-  status          String // "PENDING" | "SUCCESS" | "FAILED"
-  responseData    Json?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  id     String @id @default(cuid())
+  userId String
 
-  user User @relation("UserPayment", fields: [userId], references: [id])
+  user             User          @relation("UserPayment", fields: [userId], references: [id])
+  name             String
+  email            String
+  productId        String
+  amount           Float
+  method           String
+  transactionUuid  String        @unique
+  transactionCode  String?
+  esewaSignature   String
+  signedFieldNames String
+  status           PaymentStatus // "PENDING" | "SUCCESS" | "FAILED"
+  refId            String? // optional eSewa ref_id
+  responseData     Json?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 }
 
-enum PaymentMethod {
-  esewa
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
 }
+
+// model Payment {
+//   id              String        @id @default(cuid())
+//   userId          String
+//   productId       String
+//   amount          Float
+//   method          PaymentMethod @default(esewa) // e.g., "esewa"
+//   transactionUuid String        @unique
+//   status          String // "PENDING" | "SUCCESS" | "FAILED"
+//   responseData    Json?
+//   createdAt       DateTime      @default(now())
+//   updatedAt       DateTime      @updatedAt
+
+// }
 
 enum ROLE {
   ADMIN
