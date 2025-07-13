@@ -17,11 +17,24 @@ model Course {
   price       Int            @default(0)
   videos      Video[]
   likes       Like[]
+  watchLater  WatchLater[]
   subscribers Subscription[] @relation("UserSubscribedTo")
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   imageId     String         @unique
   image       Image          @relation("imagesToCourse", fields: [imageId], references: [id])
+}
+
+model WatchLater {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId]) // Prevent duplicate watch later for same user & course
 }
 
 model Video {
@@ -106,6 +119,7 @@ model User {
   subscriptions  Subscription[]  @relation("UserSubscribers")
   videos         Video[]
   accounts       Account[]
+  watchLater     WatchLater[]
   liked          Like[]
   sessions       Session[]
   comments       Comment[]

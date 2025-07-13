@@ -9,6 +9,7 @@ import AddToWatchLaterButton from "@/components/course/addToWatchLaterButton";
 import VideoGrid from "@/components/course/videos/VideoGrid";
 import Link from "next/link";
 import { auth } from "@/auth";
+import LikeCourse from "@/components/course/like-course";
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const session = await auth();
@@ -78,7 +79,11 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <div className="flex items-center justify-en gap-4 mt-10">
             <span className="flex items-center gap-1">
               {" "}
-              <Heart size={17} /> {course._count.likes}
+              <LikeCourse
+                courseId={course.id}
+                size={20}
+                likesCount={course._count.likes}
+              />
             </span>
             <AddToWatchLaterButton />
             {course.paid ? (

@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import prisma from "@/lib/db/db";
 import React from "react";
 import CommentElement from "./commentElement";
+import { RiAlertFill } from "react-icons/ri";
 
 const Comment = async ({ videoId }: { videoId: string }) => {
   const session = await auth();
@@ -12,6 +13,17 @@ const Comment = async ({ videoId }: { videoId: string }) => {
       _count: {
         select: {
           replies: true,
+        },
+      },
+      replies: {
+        include: {
+          owner: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
         },
       },
       owner: {
@@ -27,7 +39,14 @@ const Comment = async ({ videoId }: { videoId: string }) => {
     <div className="w-full">
       <div className="flex"></div>
       <div className="flex flex-col w-full gap-4 mt-4 text-black">
-        {comments &&
+        {comments.length === 0 ? (
+          <div>
+            <div className="flex items-center justify-center gap-2">
+              <RiAlertFill className="text-red-500" />
+              <span className="text-sm">No comments yet</span>
+            </div>
+          </div>
+        ) : (
           comments.map((comment, i: number) => (
             <CommentElement
               videoId={videoId}
@@ -35,7 +54,8 @@ const Comment = async ({ videoId }: { videoId: string }) => {
               key={i}
               parent={true}
             />
-          ))}
+          ))
+        )}
       </div>
     </div>
   );

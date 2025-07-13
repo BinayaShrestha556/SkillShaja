@@ -1,3 +1,5 @@
+import Comment from "@/components/comments/comment";
+import PostComment from "@/components/comments/post-comment";
 import VideoGrid from "@/components/course/videos/VideoGrid";
 import SecureVideoPlayer from "@/components/video";
 import VideoBottom from "@/components/video/videoBottom";
@@ -59,6 +61,10 @@ const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
           videos={video.course.videos}
           selectedId={id}
         />
+      </div>
+      <div className="w-[70%] m-auto p-3 rounded-3xl shadow bg-card mt-10">
+        <PostComment videoId={id} />
+        <Comment videoId={id} />
       </div>
     </div>
   );
