@@ -30,10 +30,31 @@ export function formatTimeAgo(date: Date | string): string {
 
   return inputDate.toISOString().split("T")[0]; // e.g., "2023-06-30"
 }
-export const fetchUrl = async (id: string, type: string) => {
+
+export const fetchUrl = async (
+  id: string,
+  type: string,
+  courseId?: string,
+  cookieHeader?: string
+) => {
+  const fetchOptions: RequestInit = cookieHeader
+    ? { headers: { Cookie: cookieHeader } }
+    : { credentials: "include" };
+
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/sign-cloudinary-params?id=${id}&type=${type}`
+    `${
+      process.env.NEXT_PUBLIC_BASE_URL
+    }/api/sign-cloudinary-params?id=${id}&type=${type}&courseId=${
+      courseId || ""
+    }`,
+    fetchOptions
   );
-  const { url, thumbnail } = await res.json();
-  return { url, thumbnail } as { url: string; thumbnail: string };
+
+  const data = await res.json();
+  if (res.status === 200) {
+    return data as { url: string; thumbnail: string };
+  }
+
+  console.error("Fetch failed:", data);
+  return null;
 };

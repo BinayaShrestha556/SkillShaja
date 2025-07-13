@@ -5,8 +5,6 @@ import Image from "next/image";
 import { fetchUrl } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { RiSave2Line } from "react-icons/ri";
-import { BiAddToQueue } from "react-icons/bi";
 import AddToWatchLaterButton from "@/components/course/addToWatchLaterButton";
 import VideoGrid from "@/components/course/videos/VideoGrid";
 import Link from "next/link";
@@ -57,12 +55,14 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     <div className=" w-[90%] m-auto mt-10">
       <div className="w-[80%] m-auto mt-32 flex gap-10 justify-end rounded-3xl ">
         <div className="relative  w-[60%]  h-96 rounded-2xl">
-          <Image
-            src={thumbnailUrl.url}
-            alt="Thumbnail of course"
-            fill
-            className="object-center object-cover rounded-2xl border bg-accent   shadow"
-          />
+          {thumbnailUrl && (
+            <Image
+              src={thumbnailUrl.url}
+              alt="Thumbnail of course"
+              fill
+              className="object-center object-cover rounded-2xl border bg-accent   shadow"
+            />
+          )}
         </div>
         <div className="flex-1  text-accent-foreground p-8 rounded-3xl shadow bg-accent  ">
           <h1 className="text-4xl font-semibold">{course.name}</h1>
@@ -102,7 +102,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <div className="w-[80%] m-auto bg-white rounded-3xl p-5 shadow mt-10">
         <h2 className="text-xl font-semibold">Videos</h2>
-        <VideoGrid videos={course.videos} />
+        <VideoGrid courseId={course.id} videos={course.videos} />
       </div>
     </div>
   );

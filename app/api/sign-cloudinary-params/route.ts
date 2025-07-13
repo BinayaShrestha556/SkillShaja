@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import prisma from "@/lib/db/db";
 import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -21,13 +23,56 @@ export async function POST(request: Request) {
 export async function GET(req: NextRequest) {
   try {
     const searchParams = req.nextUrl.searchParams;
+    const courseId: string | null = searchParams.get("courseId");
     const videoId: string | null = searchParams.get("id");
     const media: string | null = searchParams.get("type");
+    const session = await auth();
+    const userId = session?.user?.id;
     if (!videoId)
       return NextResponse.json(
         { message: "Id not provided" },
         { status: 400, statusText: "Not provided all required query" }
       );
+    if (!media)
+      return NextResponse.json(
+        { message: "Media type not provided" },
+        { status: 400, statusText: "Not provided all required query" }
+      );
+
+    if (media === "video") {
+      if (!userId)
+        return NextResponse.json(
+          { message: "Not logged in" },
+          { status: 403, statusText: "login first" }
+        );
+      if (!courseId)
+        return NextResponse.json(
+          { message: "Course id not provided" },
+          { status: 400, statusText: "Not provided all required query" }
+        );
+      const course = await prisma.course.findUnique({
+        where: {
+          id: courseId,
+        },
+      });
+      let free = true;
+      if (course?.paid) free = false;
+
+      if (!free) {
+        const payment = await prisma.payment.findFirst({
+          where: {
+            productId: courseId,
+            userId,
+            status: "SUCCESS",
+          },
+        });
+        if (!payment)
+          return NextResponse.json(
+            { message: "Not authenticated to watch this video" },
+            { status: 403, statusText: "not paid for this course" }
+          );
+      }
+    }
     const expiresAt = Math.floor(Date.now() / 1000) + 3600;
 
     const url = cloudinary.url(videoId, {

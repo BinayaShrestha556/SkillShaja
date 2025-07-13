@@ -4,12 +4,19 @@ import VideoBottom from "@/components/video/videoBottom";
 import prisma from "@/lib/db/db";
 import { fetchUrl } from "@/lib/utils";
 import { AlertTriangle, Heart } from "lucide-react";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 import { BiAddToQueue, BiHeart, BiSave } from "react-icons/bi";
 import { RiAlertFill, RiAlertLine } from "react-icons/ri";
 
 const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
+  const cookieStore = await cookies();
+  const cookieHeader = cookieStore
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+
   const { id } = await searchParams;
   if (!id) return notFound();
   const video = await prisma.video.findUnique({
@@ -26,20 +33,32 @@ const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
     },
   });
   if (!video) return notFound();
-  const videoUrl = await fetchUrl(video.videoUrl, "video");
+  const videoUrl = await fetchUrl(
+    video.videoUrl,
+    "video",
+    video.courseId,
+    cookieHeader
+  );
 
-  console.log(video);
   return (
     <div className="w-full">
       <div className="w-[55%] m-auto bg-card rounded-3xl">
         <div className="w-full rounded-3xl overflow-hidden">
-          <SecureVideoPlayer src={videoUrl.url} />
+          {videoUrl ? (
+            <SecureVideoPlayer src={videoUrl.url} />
+          ) : (
+            <div> not authenticated </div>
+          )}
         </div>
         <VideoBottom video={{ ...video }} />
       </div>
 
       <div className="w-[70%] m-auto px-2 rounded-3xl shadow bg-card mt-10">
-        <VideoGrid videos={video.course.videos} selectedId={id} />
+        <VideoGrid
+          courseId={video.courseId}
+          videos={video.course.videos}
+          selectedId={id}
+        />
       </div>
     </div>
   );

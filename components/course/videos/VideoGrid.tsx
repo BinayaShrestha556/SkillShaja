@@ -5,8 +5,9 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { cn, fetchUrl } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Video } from "@prisma/client";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -14,17 +15,33 @@ import React, { useEffect, useState } from "react";
 interface VideoGridProps {
   videos: Video[];
   selectedId?: string;
+  courseId: string;
 }
 
-const VideoGrid: React.FC<VideoGridProps> = ({ videos, selectedId }) => {
+const VideoGrid: React.FC<VideoGridProps> = ({
+  videos,
+  selectedId,
+  courseId,
+}) => {
+  const fetchUrl = async (id: string) => {
+    try {
+      const res = await axios.get(
+        `/api/sign-cloudinary-params?id=${id}&type=video&courseId=${courseId}`
+      );
+      return res.data as { url: string; thumbnail: string };
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const [thumbnails, setThumbnails] = useState<Record<string, string>>({});
 
   useEffect(() => {
     const loadThumbnails = async () => {
       const entries = await Promise.all(
         videos.map(async (video) => {
-          const { thumbnail } = await fetchUrl(video.videoUrl, "video");
-          return [video.id, thumbnail] as [string, string];
+          const data = await fetchUrl(video.videoUrl);
+
+          return [video.id, data?.thumbnail] as [string, string];
         })
       );
       setThumbnails(Object.fromEntries(entries));

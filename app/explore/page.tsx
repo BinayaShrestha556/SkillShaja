@@ -39,7 +39,7 @@ const page = async () => {
       },
     },
   });
-  console.log(exploreCourses);
+
   if (!exploreCourses || exploreCourses.length === 0)
     return (
       <div className="h-screen w-screen flex items-center justify-center">
