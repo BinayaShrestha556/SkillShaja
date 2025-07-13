@@ -3,6 +3,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FaSearch } from "react-icons/fa";
 import NavbarActions from "./action";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -10,14 +11,14 @@ const Navbar = () => {
       <div className="flex items-center gap-5 relative">
         <h1 className="text-3xl font-bold text-nowrap text-primary">
           {" "}
-          Logo here{" "}
+          <Link href={"/"}>Logo here</Link>{" "}
         </h1>
         <ul className="flex  gap-5">
           <li className="hover:text-primary hover:underline cursor-pointer">
-            about
+            <Link href={"/about"}>about</Link>
           </li>
           <li className="hover:text-primary hover:underline cursor-pointer">
-            explore
+            <Link href={"/explore"}>explore</Link>
           </li>
         </ul>
         <Input

@@ -54,7 +54,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const thumbnailUrl = await fetchUrl(course.image.url, "image");
   return (
     <div className=" w-[90%] m-auto mt-10">
-      <div className="w-[80%] m-auto mt-32 flex gap-10 justify-end rounded-3xl ">
+      <div className="w-[80%] m-auto  flex gap-10 justify-end rounded-3xl ">
         <div className="relative  w-[60%]  h-96 rounded-2xl">
           {thumbnailUrl && (
             <Image
@@ -65,18 +65,12 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             />
           )}
         </div>
-        <div className="flex-1  text-accent-foreground p-8 rounded-3xl shadow bg-accent  ">
+        <div className="flex-1  text-card-foreground p-8 rounded-3xl shadow bg-card flex flex-col ">
           <h1 className="text-4xl font-semibold">{course.name}</h1>
-          <p className="line-clamp-[7] text-muted-foreground">
-            {course.description} Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Unde obcaecati dolores delectus modi eum omnis
-            non! Ullam eligendi tenetur libero ab ipsa hic aliquid quasi
-            officiis, odio autem porro animi? Lorem ipsum, dolor sit amet
-            consectetur adipisicing elit. Quidem consequuntur esse optio, ad
-            atque rerum, cumque sint nulla corporis modi, impedit excepturi
-            expedita obcaecati iure delectus. Dolore temporibus aut molestiae!
+          <p className="line-clamp-[7] text-muted-foreground flex-1">
+            {course.description}
           </p>
-          <div className="flex items-center justify-en gap-4 mt-10">
+          <div className="flex items-center justify-en gap-4 text-accent-foreground mt-10">
             <span className="flex items-center gap-1">
               {" "}
               <LikeCourse
@@ -85,7 +79,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
                 likesCount={course._count.likes}
               />
             </span>
-            <AddToWatchLaterButton />
+            <AddToWatchLaterButton courseId={course.id} />
             {course.paid ? (
               payment ? (
                 <Link href={`/videos?id=${course.videos[0].id}`}>

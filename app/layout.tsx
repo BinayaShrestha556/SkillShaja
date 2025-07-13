@@ -21,7 +21,7 @@ export default async function RootLayout({
       <body className={``}>
         <SessionProvider>
           <Navbar />
-          <main className="mt-14">{children}</main>
+          <main className="mt-14 h-screen">{children}</main>
           <Footer />
         </SessionProvider>
       </body>

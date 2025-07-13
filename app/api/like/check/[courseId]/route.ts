@@ -4,13 +4,13 @@ import { NextResponse } from "next/server";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: Promise<{ courseId: string }> }
 ) => {
   const session = await auth();
   const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: "not logged in" });
 
-  const { courseId } = params;
+  const { courseId } = await params;
   if (!courseId) {
     return NextResponse.json(
       { error: "Course ID is required" },
