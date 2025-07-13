@@ -68,6 +68,7 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
       addField("signed_field_names", params.signed_field_names);
       addField("signature", params.signature);
       addField("success_url", params.success_url);
+      // addField("success_url", "http://192.168.10.102:3000/api/success");
 
       addField("failure_url", params.failure_url);
 

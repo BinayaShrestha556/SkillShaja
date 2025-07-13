@@ -10,8 +10,11 @@ import { BiAddToQueue } from "react-icons/bi";
 import AddToWatchLaterButton from "@/components/course/addToWatchLaterButton";
 import VideoGrid from "@/components/course/videos/VideoGrid";
 import Link from "next/link";
+import { auth } from "@/auth";
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
+  const session = await auth();
+  const userId = session?.user?.id;
   const course = await prisma.course.findUnique({
     where: {
       id,
@@ -37,6 +40,16 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   });
   if (!course) {
     notFound();
+  }
+  let payment;
+  if (course.paid && userId) {
+    payment = await prisma.payment.findFirst({
+      where: {
+        productId: id,
+        userId,
+        status: "SUCCESS",
+      },
+    });
   }
 
   const thumbnailUrl = await fetchUrl(course.image.url, "image");
@@ -69,9 +82,15 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             </span>
             <AddToWatchLaterButton />
             {course.paid ? (
-              <Link href={`/payment?courseId=${course.id}`}>
-                <Button size={"lg"}>Buy at just Rs. {course.price}!</Button>
-              </Link>
+              payment ? (
+                <Link href={`/videos?id=${course.videos[0].id}`}>
+                  <Button>Watch now</Button>
+                </Link>
+              ) : (
+                <Link href={`/payment?courseId=${course.id}`}>
+                  <Button size={"lg"}>Buy at just Rs. {course.price}!</Button>
+                </Link>
+              )
             ) : (
               <span className="px-3 py-1 rounded-xl bg-green-100 border text-sm font-semibold border-green-200 text-green-600">
                 Free

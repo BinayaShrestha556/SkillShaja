@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-// app/api/payment/initiate/route.ts
-
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { generateEsewaSignature } from "@/lib/verifySignature";
@@ -44,6 +40,8 @@ export async function POST(req: Request) {
     const signature = generateEsewaSignature(message);
     await prisma.payment.create({
       data: {
+        taxAmount,
+        totalAmount,
         amount: baseAmount,
         email,
         method: "esewa",

@@ -125,7 +125,9 @@ model Payment {
   name             String
   email            String
   productId        String
+  totalAmount      Float
   amount           Float
+  taxAmount        Float
   method           String
   transactionUuid  String        @unique
   transactionCode  String?
