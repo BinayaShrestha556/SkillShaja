@@ -3,7 +3,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="flex w-full">
+    <div className="flex w-full ">
       <UploadForm />
     </div>
   );

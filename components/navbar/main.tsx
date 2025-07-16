@@ -4,6 +4,8 @@ import { Button } from "../ui/button";
 import { FaSearch } from "react-icons/fa";
 import NavbarActions from "./action";
 import Link from "next/link";
+import Search from "./search/search";
+import { SessionProvider } from "next-auth/react";
 
 const Navbar = () => {
   return (
@@ -21,17 +23,12 @@ const Navbar = () => {
             <Link href={"/explore"}>explore</Link>
           </li>
         </ul>
-        <Input
-          placeholder="Search anything"
-          className="rounded-full p-5 w-80 backdrop-blur-xl bg-white border"
-        />
-        <FaSearch
-          size={10}
-          className="w-8 h-8  p-1.5 cursor-pointer absolute right-[5px] rounded-full bg-primary text-white"
-        />{" "}
+        <Search />
       </div>
       <div className="flex items-center relative">
-        <NavbarActions />
+        <SessionProvider>
+          <NavbarActions />
+        </SessionProvider>
       </div>
     </nav>
   );

@@ -8,9 +8,16 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const Layout = async ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ userId: string }>;
+}) => {
   const session = await auth();
   const userId = session?.user?.id;
+  const { userId: paramUserId } = await params;
   if (!userId) {
     redirect("/signin");
   }
@@ -40,7 +47,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
           </p>
         </div>
       </div>
-      <Nav />
+      <Nav isUser={paramUserId === userId} id={paramUserId} />
       {children}
     </div>
   );

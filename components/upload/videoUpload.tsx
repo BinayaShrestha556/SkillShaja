@@ -4,6 +4,7 @@ import { CldUploadWidget } from "next-cloudinary";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import SecureVideoPlayer from "../video";
 interface UploadProps {
   accessMode: "authenticated" | "public";
   onChange: (e: string, thumbnailUrl?: string) => void;
@@ -111,7 +112,7 @@ export default function VideoUpload({
   // } SAMPLE RESPONSE VIDEO
 
   const clientAllowedFormats =
-    media === "image" ? ["jpg", "jpeg", "png"] : ["mp4", "mov", "webm"];
+    media === "image" ? ["jpg", "jpeg", "png", "webp"] : ["mp4", "mov", "webm"];
   return (
     <div className="p-4 bg-gray-50 rounded-lg w-full shadow-sm">
       {(imageUrl || videoUrl) && (
@@ -124,9 +125,7 @@ export default function VideoUpload({
               className="object-center object-cover"
             />
           )}
-          {videoUrl && (
-            <video className="w-full h-full " src={videoUrl} controls />
-          )}
+          {videoUrl && <SecureVideoPlayer src={videoUrl} />}
         </div>
       )}
       {/* Cloudinary Upload Widget */}

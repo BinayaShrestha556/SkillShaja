@@ -2,7 +2,7 @@ import prisma from "@/lib/db/db";
 import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { fetchUrl } from "@/lib/utils";
+import { fetchUrl, formatTimeAgo } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AddToWatchLaterButton from "@/components/course/addToWatchLaterButton";
@@ -65,12 +65,37 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             />
           )}
         </div>
-        <div className="flex-1  text-card-foreground p-8 rounded-3xl shadow bg-card flex flex-col ">
+        <div className="flex-1 gap-3 text-card-foreground p-8 rounded-3xl shadow bg-card flex flex-col ">
           <h1 className="text-4xl font-semibold">{course.name}</h1>
           <p className="line-clamp-[7] text-muted-foreground flex-1">
             {course.description}
           </p>
-          <div className="flex items-center justify-en gap-4 text-accent-foreground mt-10">
+          <div className="relative flex gap-1 items-center pr-2">
+            <div className="relative rounded-xl border ">
+              <Image
+                width={35}
+                height={35}
+                src={course.user.image || "/avatar.png"}
+                alt="user profile"
+                className="object-center object-cover"
+              />
+            </div>
+
+            <Link
+              href={`/user/${course.user.id}`}
+              className="text-muted-foreground text-sm font-semibold flex-grow"
+            >
+              {" "}
+              {course.user.name}{" "}
+            </Link>
+
+            <div className="flex justify-between gap-2">
+              <span className="text-muted-foreground text-sm">
+                {formatTimeAgo(course.createdAt)}
+              </span>{" "}
+            </div>
+          </div>
+          <div className="flex items-center justify-en gap-4 mt-4 text-accent-foreground ">
             <span className="flex items-center gap-1">
               {" "}
               <LikeCourse

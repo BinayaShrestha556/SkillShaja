@@ -45,11 +45,31 @@ export async function GET(req: NextRequest) {
           { message: "Not logged in" },
           { status: 403, statusText: "login first" }
         );
-      if (!courseId)
+      if (!courseId) {
+        const url = cloudinary.url(videoId, {
+          resource_type: media,
+          type: "authenticated",
+          format: media === "video" ? "m3u8" : "png",
+          sign_url: true,
+          secure: true,
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+        });
+        const thumbnail = cloudinary.url(`${videoId}.jpg`, {
+          resource_type: "video",
+          type: "authenticated",
+
+          sign_url: true,
+          secure: true,
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+        });
         return NextResponse.json(
-          { message: "Course id not provided" },
-          { status: 400, statusText: "Not provided all required query" }
+          {
+            url,
+            thumbnail,
+          },
+          { status: 200 }
         );
+      }
       const course = await prisma.course.findUnique({
         where: {
           id: courseId,
