@@ -54,8 +54,8 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const thumbnailUrl = await fetchUrl(course.image.url, "image");
   return (
     <div className=" w-[90%] m-auto mt-10">
-      <div className="w-[80%] m-auto  flex gap-10 justify-end rounded-3xl ">
-        <div className="relative  w-[60%]  h-96 rounded-2xl">
+      <div className="w-[80%] m-auto flex  flex-col lg:flex-row gap-10 justify-end rounded-3xl ">
+        <div className="relative  w-full lg:w-[60%] h-96 rounded-2xl">
           {thumbnailUrl && (
             <Image
               src={thumbnailUrl.url}
@@ -95,7 +95,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               </span>{" "}
             </div>
           </div>
-          <div className="flex items-center justify-en gap-4 mt-4 text-accent-foreground ">
+          <div className="flex items-center justify-en flex-wrap gap-4 mt-4 text-accent-foreground ">
             <span className="flex items-center gap-1">
               {" "}
               <LikeCourse

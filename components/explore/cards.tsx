@@ -32,9 +32,9 @@ const Cards: React.FC<
   return (
     <Link
       href={`/course/${id}`}
-      className="w-full flex flex-col relative bg-card  shadow-accent p-3 rounded-3xl overflow-hidden hover:scale-[103%] hover:shadow-2xl cursor-pointer transition-all duration-200 "
+      className="w-full flex flex-col relative bg-card  shadow-accent p-1 md:p-3 rounded-3xl overflow-hidden hover:scale-[103%] hover:shadow-2xl cursor-pointer transition-all duration-200 md:gap-2"
     >
-      <div className="relative w-full h-56 ">
+      <div className="relative w-full aspect-[4/3] ">
         <Image
           src={url}
           alt="course thumbnail"
@@ -54,7 +54,7 @@ const Cards: React.FC<
         </div>
       </div>
 
-      <div className=" pt-3 ">
+      <div className=" pt-1">
         <div className="relative flex gap-1 items-center">
           <div className="relative rounded-xl border p-1">
             <Image
@@ -74,8 +74,8 @@ const Cards: React.FC<
             {user.name}{" "}
           </Link>
 
-          <div className="flex justify-between gap-2">
-            <span className="text-muted-foreground text-sm">
+          <div className="flex justify-between gap-0.5">
+            <span className="text-muted-foreground text-sm mr-1 hidden md:block">
               {formatTimeAgo(createdAt)}
             </span>{" "}
             <span className="text-muted-foreground text-sm font-semibold gap-0.5 flex items-center">
@@ -83,10 +83,14 @@ const Cards: React.FC<
             </span>
           </div>
         </div>
-        <div className="rounded-2xl  p-2 mt-2 border">
-          <h3 className=" antialiased font-semibold ">{name}</h3>
-          <p className="text-sm text-muted-foreground -mt-0.5 truncate line-clamp-2 text-wrap">
-            {description}
+
+        <div className="rounded-2xl py-0.5 md:p-2 md:px-3 px-2 mt-1 md:mt-2 border">
+          <h3 className=" antialiased font-semibold ">{name}</h3>{" "}
+          <p className="text-sm text-muted-foreground -mt-0.5  truncate line-clamp-2 text-wrap">
+            {description}{" "}
+            <span className="text-muted-foreground text-sm md:hidden  py-0.5 block">
+              {formatTimeAgo(createdAt)}
+            </span>{" "}
           </p>
         </div>
       </div>

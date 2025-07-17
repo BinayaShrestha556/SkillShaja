@@ -47,7 +47,7 @@ const page = async () => {
       </div>
     );
   return (
-    <div className="w-[90%] m-auto pt-2">
+    <div className="w-full md:w-[90%] m-auto pt-2 px-1">
       <Grid data={exploreCourses} title="Polular Courses" />
       <div className="h-5 w-full "></div>
       <Grid data={for_you_courses} title="For You" />

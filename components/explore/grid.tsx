@@ -12,7 +12,7 @@ const Grid: React.FC<{
   return (
     <>
       <h1 className="text-2xl font-semibold mt-10 mb-2 ml-1">{title}</h1>
-      <div className="w-full grid grid-cols-4 gap-6 ">
+      <div className="w-full grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-2 md:gap-4 gap-y-4">
         {data.map((e) => (
           <Cards {...e} key={e.id} />
         ))}

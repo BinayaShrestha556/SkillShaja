@@ -1,8 +1,9 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { useState } from "react";
 import SearchResults from "./search-results";
 import { FaSearch } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
 const Search = () => {
   const timer = React.useRef<NodeJS.Timeout | null>(null);
@@ -34,22 +35,64 @@ const Search = () => {
       setLoading(false);
     }, 1000);
   };
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSearchDataOpen, setIsSearchDataOpen] = useState(false);
   return (
-    <div className="w-full relative">
+    <div className="w-full relative flex items-center flex-1">
       <Input
+        onFocus={() => {
+          setIsSearchDataOpen(true);
+        }}
+        onBlur={() => {
+          setIsSearchDataOpen(false);
+        }}
         placeholder="Search anything"
-        className="rounded-full p-5 w-80 backdrop-blur-xl bg-white border"
+        className={cn(
+          "rounded-full p-5 transition backdrop-blur-xl lg:pl-12  bg-white border  ",
+          {
+            " z-40 fixed right-0 opacity-100 ": isSearchOpen,
+            "w-0 opacity-0 lg:opacity-100 lg:w-80 ": !isSearchOpen,
+          }
+        )}
         onChange={onChange}
       />
-      <FaSearch
-        size={10}
-        className="w-8 h-8 top-[5px] p-1.5 cursor-pointer absolute right-[5px] rounded-full bg-primary text-white"
-      />{" "}
-      {q && searchData && (
-        <SearchResults courses={searchData.courses} users={searchData.users} />
+      {isSearchDataOpen && (
+        <div
+          className="w-screen h-screen bg-transparent fixed inset-0 z-30"
+          onClick={() => {
+            setIsSearchDataOpen(false);
+          }}
+        ></div>
       )}
-      {q && loading && (
-        <div className="absolute top-[125%] left-0 w-full p-4 bg-white border rounded-md shadow-lg z-50">
+      {isSearchOpen && (
+        <div
+          className="w-screen h-screen bg-transparent fixed inset-0 z-30"
+          onClick={() => {
+            setIsSearchOpen(false);
+          }}
+        ></div>
+      )}
+      <FaSearch
+        onClick={() => setIsSearchOpen(!isSearchOpen)}
+        size={10}
+        className="w-8 h-8 left-[5px]   md:right-1.5 p-1.5 absolute cursor-pointer rounded-full bg-primary text-white"
+      />{" "}
+      {!loading && isSearchDataOpen && q && searchData && (
+        <SearchResults
+          courses={searchData.courses}
+          users={searchData.users}
+          hidden={!isSearchOpen}
+        />
+      )}
+      {isSearchDataOpen && q && loading && (
+        <div
+          className={cn(
+            "absolute md:top-[125%] top-10 -left-40 md:left-0 w-80 p-4 bg-white border rounded-md shadow-lg z-50",
+            {
+              "hidden lg:block": !isSearchOpen,
+            }
+          )}
+        >
           Loading...
         </div>
       )}

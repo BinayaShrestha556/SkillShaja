@@ -1,12 +1,13 @@
 "use client";
 
-import { fetchUrl } from "@/lib/utils";
+import { cn, fetchUrl } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 
 interface SearchResultsProps {
   courses: { id: string; name: string; image: { url: string } }[];
   users: { id: string; name: string; image?: string }[];
+  hidden?: boolean;
 }
 
 // Helper to fetch signed Cloudinary URL
@@ -19,7 +20,11 @@ async function getSignedUrl(imageId: string) {
   return url || "/placeholder.png";
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({ courses, users }) => {
+const SearchResults: React.FC<SearchResultsProps> = ({
+  courses,
+  users,
+  hidden,
+}) => {
   const [courseImages, setCourseImages] = React.useState<
     Record<string, string>
   >({});
@@ -40,7 +45,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({ courses, users }) => {
   }, [courses]);
 
   return (
-    <div className="absolute top-[150%] left-0 w-full bg-white border rounded-md shadow-lg z-50">
+    <div
+      className={cn(
+        `absolute top-8 -left-52   w-96 bg-white border rounded-md shadow-lg z-50`,
+        {
+          "hidden lg:block left-0 top-[125%]": hidden,
+        }
+      )}
+    >
       {courses.length >= 1 && (
         <div className="p-4">
           <h2 className="text-lg font-semibold">Courses</h2>

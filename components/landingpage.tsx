@@ -16,7 +16,7 @@ const LandingPage = () => {
       <div className=" inset-0 z-0  scroll-smooth">
         {/* Semi-transparent overlay for better text visibility */}
         <div className="flex w-full h-[100dvh] p-10 ">
-          <div className="flex-1 h-full relative rounded-2xl overflow-hidden ">
+          <div className="flex-1 h-full relative rounded-2xl overflow-hidden hidden md:block">
             <Image
               src="/teamwork.jpeg"
               alt="clip art with team work illustration"
@@ -25,13 +25,13 @@ const LandingPage = () => {
             />
           </div>
           <div className="relative z-20 text-center p-4 h-full w-full flex flex-col flex-1 items-center justify-center">
-            <h1 className="text-7xl font-bold text-foreground text-shadow-lg">
+            <h1 className="lg:text-7xl text-5xl font-bold text-foreground text-shadow-lg">
               Share And Learn, <br />
               <span className="text-secondary-foreground">
                 One Skill at a Time.
               </span>
             </h1>
-            <p className="text-muted-foreground   text-lg md:text-xl ">
+            <p className="text-muted-foreground    md:text-xl ">
               A platform to share your ideas and pictures with the world.
             </p>
 
@@ -82,16 +82,16 @@ const LandingPage = () => {
             </Link>
           </div>
         </div>
-        <div className="bg-accent z-10 h-[100dvh] flex items-center gap-20 justify-center w-full p-20">
+        <div className="bg-accent z-10 md:h-[100dvh]  flex flex-col md:flex-row items-center gap-20 justify-center w-full md:p-20 p-10">
           {/* Left Column: Image Container (flex-1) */}
-          <div className="flex-1 relative h-full  rounded-[50px]">
+          <div className="flex-1 relative aspect-square  md:h-full w-full rounded-[50px]">
             {/*
           1. The "Shadow" Div - Placed first in JSX to be visually behind
           the Image by default, but explicitly controlled by z-index.
           Matches the parent's rounded corners.
         */}
             <div
-              className="absolute inset-0 translate-x-10 translate-y-10 bg-black/80  rounded-[50px] z-10"
+              className="absolute inset-0 translate-x-8 translate-y-8 bg-black/80  rounded-[50px] z-10"
               // bg-black/50: Black color with 50% opacity
               // rounded-[50px]: Matches the parent container's border-radius for the shadow shape
               // z-0: Ensures it's at the back
@@ -114,8 +114,8 @@ const LandingPage = () => {
           </div>
 
           {/* Right Column: Your other content (flex-1) */}
-          <div className="flex-1 text-left items-center  p-4">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-accent-foreground mb-4">
+          <div className="flex-1 text-left items-center  md:p-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-accent-foreground mb-4">
               Unlock Your Potential
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground">

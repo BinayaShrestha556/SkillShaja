@@ -91,7 +91,7 @@ const VideoGrid: React.FC<VideoGridProps> = ({
           <CarouselItem
             key={index}
             className={cn(
-              "basis-1/4 p-2 ml-2   rounded-[26px] hover:border hover:shadow-2xl",
+              "basis-1/2 md:basis-1/4 p-2 ml-2   rounded-[26px] hover:border hover:shadow-2xl",
               selectedId && selectedId === video.id && "bg-accent shadow"
             )}
           >

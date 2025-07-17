@@ -57,7 +57,7 @@ const NavbarActions = () => {
               Login
             </Button>
           </a>
-          <a href="/signup">
+          <a href="/signup" className="hidden md:block">
             <Button variant="ghost">Signup</Button>
           </a>
         </div>
