@@ -95,30 +95,41 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               </span>{" "}
             </div>
           </div>
-          <div className="flex items-center justify-en flex-wrap gap-4 mt-4 text-accent-foreground ">
-            <span className="flex items-center gap-1">
+          <div className="flex items-center flex-col justify-en flex-wrap gap-4 mt-4 text-accent-foreground ">
+            <span className="flex items-center justify-between w-full gap-1">
               {" "}
+              <AddToWatchLaterButton courseId={course.id} />
               <LikeCourse
                 courseId={course.id}
                 size={20}
                 likesCount={course._count.likes}
               />
             </span>
-            <AddToWatchLaterButton courseId={course.id} />
             {course.paid ? (
               payment ? (
-                <Link href={`/videos?id=${course.videos[0].id}`}>
-                  <Button>Watch now</Button>
+                <Link
+                  className="w-full flex-1"
+                  href={`/videos?id=${course.videos[0].id}`}
+                >
+                  <Button className="w-full cursor-pointer">Watch now</Button>
                 </Link>
               ) : (
-                <Link href={`/payment?courseId=${course.id}`}>
-                  <Button size={"lg"}>Buy at just Rs. {course.price}!</Button>
+                <Link
+                  className="w-full flex-1 cursor-pointer"
+                  href={`/payment?courseId=${course.id}`}
+                >
+                  <Button className="w-full cursor-pointer" size={"lg"}>
+                    Buy at just Rs. {course.price}!
+                  </Button>
                 </Link>
               )
             ) : (
-              <span className="px-3 py-1 rounded-xl bg-green-100 border text-sm font-semibold border-green-200 text-green-600">
-                Free
-              </span>
+              <Link
+                className="w-full flex-1"
+                href={`/videos?id=${course.videos[0].id}`}
+              >
+                <Button className="w-full cursor-pointer">Watch now</Button>
+              </Link>
             )}
           </div>
         </div>

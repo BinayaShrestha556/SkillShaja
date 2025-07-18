@@ -96,7 +96,7 @@ const VideoGrid: React.FC<VideoGridProps> = ({
             )}
           >
             <Link href={`/videos?id=${video.id}`}>
-              <div className="w-full h-48 relative">
+              <div className="w-full aspect-[16/10] relative">
                 {thumbnails[video.id] ? (
                   <Image
                     src={thumbnails[video.id]}

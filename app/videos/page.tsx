@@ -5,12 +5,10 @@ import SecureVideoPlayer from "@/components/video";
 import VideoBottom from "@/components/video/videoBottom";
 import prisma from "@/lib/db/db";
 import { fetchUrl } from "@/lib/utils";
-import { AlertTriangle, Heart } from "lucide-react";
+
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
-import { BiAddToQueue, BiHeart, BiSave } from "react-icons/bi";
-import { RiAlertFill, RiAlertLine } from "react-icons/ri";
 
 const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
   const cookieStore = await cookies();
@@ -44,7 +42,7 @@ const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
 
   return (
     <div className="w-full">
-      <div className="w-[55%] m-auto bg-card rounded-3xl">
+      <div className="lg:w-[55%] md:w-[65%] p-3 w-full  m-auto bg-card rounded-3xl">
         <div className="w-full rounded-3xl overflow-hidden">
           {videoUrl ? (
             <SecureVideoPlayer src={videoUrl.url} />
@@ -55,14 +53,14 @@ const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
         <VideoBottom video={{ ...video }} />
       </div>
 
-      <div className="w-[70%] m-auto px-2 rounded-3xl shadow bg-card mt-10">
+      <div className=" lg:w-[70%]  w-[calc(100%-12px)] m-auto px-2 rounded-3xl shadow bg-card mt-10">
         <VideoGrid
           courseId={video.courseId}
           videos={video.course.videos}
           selectedId={id}
         />
       </div>
-      <div className="w-[70%] m-auto p-3 rounded-3xl shadow bg-card mt-10">
+      <div className="lg:w-[70%] ww-[calc(100%-12px)] m-auto p-3 rounded-3xl shadow bg-card mt-10">
         <PostComment videoId={id} />
         <Comment videoId={id} />
       </div>

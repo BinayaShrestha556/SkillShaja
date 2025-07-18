@@ -32,7 +32,7 @@ const Cards: React.FC<
   return (
     <Link
       href={`/course/${id}`}
-      className="w-full flex flex-col relative bg-card  shadow-accent p-1 md:p-3 rounded-3xl overflow-hidden hover:scale-[103%] hover:shadow-2xl cursor-pointer transition-all duration-200 md:gap-2"
+      className="w-full flex flex-col relative bg-card  shadow-accent p-1 md:p-3 rounded-3xl overflow-hidden hover:scale-[101%] hover:shadow-2xl cursor-pointer transition-all duration-200 md:gap-2"
     >
       <div className="relative w-full aspect-[4/3] ">
         <Image
