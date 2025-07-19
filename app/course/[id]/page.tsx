@@ -53,8 +53,8 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
   const thumbnailUrl = await fetchUrl(course.image.url, "image");
   return (
-    <div className=" w-[90%] m-auto mt-10">
-      <div className="w-[80%] m-auto flex  flex-col lg:flex-row gap-10 justify-end rounded-3xl ">
+    <div className="w-[calc(100%-1.75rem)] md:w-[90%] m-auto mt-10">
+      <div className="w-full md:w-[80%] m-auto flex  flex-col lg:flex-row gap-10 justify-end rounded-3xl ">
         <div className="relative  w-full lg:w-[60%] h-96 rounded-2xl">
           {thumbnailUrl && (
             <Image
@@ -135,7 +135,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
         </div>
       </div>
 
-      <div className="w-[80%] m-auto bg-white rounded-3xl p-5 shadow mt-10">
+      <div className=" md:w-[80%] m-auto bg-white rounded-3xl p-5 shadow mt-10">
         <h2 className="text-xl font-semibold">Videos</h2>
         <VideoGrid courseId={course.id} videos={course.videos} />
       </div>

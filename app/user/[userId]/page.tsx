@@ -34,7 +34,7 @@ const Page = async ({ params }: { params: Promise<{ userId: string }> }) => {
     },
   });
   return (
-    <div className="w-[90%] m-auto pt-2 ">
+    <div className="md:w-[90%] w-full m-auto pt-2 ">
       <Grid data={course} title="My Courses" />
     </div>
   );

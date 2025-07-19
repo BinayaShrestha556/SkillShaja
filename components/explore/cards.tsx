@@ -32,9 +32,9 @@ const Cards: React.FC<
   return (
     <Link
       href={`/course/${id}`}
-      className="w-full flex flex-col relative bg-card  shadow-accent p-1 md:p-3 rounded-3xl overflow-hidden hover:scale-[101%] hover:shadow-2xl cursor-pointer transition-all duration-200 md:gap-2"
+      className="w-full flex flex-col relative bg-card  shadow-accent p-3 rounded-3xl overflow-hidden hover:scale-[101%] shadow-2xs hover:shadow-2xl cursor-pointer transition-all duration-200 gap-2"
     >
-      <div className="relative w-full aspect-[4/3] ">
+      <div className="relative w-full aspect-[16/10] ">
         <Image
           src={url}
           alt="course thumbnail"
@@ -84,7 +84,7 @@ const Cards: React.FC<
           </div>
         </div>
 
-        <div className="rounded-2xl py-0.5 md:p-2 md:px-3 px-2 mt-1 md:mt-2 border">
+        <div className="rounded-2xl py-2 px-3  mt-2 border">
           <h3 className=" antialiased font-semibold ">{name}</h3>{" "}
           <p className="text-sm text-muted-foreground -mt-0.5  truncate line-clamp-2 text-wrap">
             {description}{" "}

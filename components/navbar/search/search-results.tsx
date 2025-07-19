@@ -2,6 +2,7 @@
 
 import { cn, fetchUrl } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface SearchResultsProps {
@@ -46,8 +47,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({
 
   return (
     <div
+      onClick={(event) => event.stopPropagation()}
       className={cn(
-        `absolute top-8 -left-52   w-96 bg-white border rounded-md shadow-lg z-50`,
+        `absolute top-8 -left-48   w-96 bg-white border rounded-md shadow-lg z-50`,
         {
           "hidden lg:block left-0 top-[125%]": hidden,
         }
@@ -58,17 +60,22 @@ const SearchResults: React.FC<SearchResultsProps> = ({
           <h2 className="text-lg font-semibold">Courses</h2>
           <ul>
             {courses.map((course) => (
-              <li key={course.id} className="flex items-center py-2">
-                <div className="relative w-14 h-9 rounded-md mr-2 overflow-hidden">
-                  <Image
-                    src={courseImages[course.id] || "/placeholder.png"}
-                    alt={course.name}
-                    fill
-                    className="object-cover rounded-md"
-                    sizes="56px"
-                  />
-                </div>
-                <span>{course.name}</span>
+              <li key={course.id}>
+                <Link
+                  href={`/course/${course.id}`}
+                  className="flex items-center py-2"
+                >
+                  <div className="relative w-14 h-9 rounded-md mr-2 overflow-hidden">
+                    <Image
+                      src={courseImages[course.id] || "/placeholder.png"}
+                      alt={course.name}
+                      fill
+                      className="object-cover rounded-md"
+                      sizes="56px"
+                    />
+                  </div>
+                  <span>{course.name}</span>
+                </Link>
               </li>
             ))}
           </ul>

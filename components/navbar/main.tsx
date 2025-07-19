@@ -6,8 +6,8 @@ import { SessionProvider } from "next-auth/react";
 
 const Navbar = () => {
   return (
-    <nav className="w-full h-16 px-2 md:px-10 flex items-center justify-between z-50">
-      <div className="flex items-center gap-5 relative">
+    <nav className="w-full h-16 px-1 md:px-10 flex items-center justify-between z-50">
+      <div className="flex items-center  gap-3 md:gap-5 relative">
         <h1 className="text-2xl font-bold text-nowrap text-primary">
           {" "}
           <Link href={"/"}>Sikaoo</Link>{" "}

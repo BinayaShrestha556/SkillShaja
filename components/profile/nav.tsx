@@ -18,10 +18,13 @@ const Nav = ({
   const pathname = usePathname();
   return (
     <nav
-      className={cn("flex items-center w-full border-b mt-10", className)}
+      className={cn(
+        "flex items-center w-full justify-between border-b mt-10",
+        className
+      )}
       {...props}
     >
-      <ul className="flex gap-4 ml-10">
+      <ul className="flex gap-2 lg:ml-10 md:gap-4 ">
         <li>
           <Link
             href={`/user/${id}`}
@@ -63,7 +66,7 @@ const Nav = ({
           </>
         )}
       </ul>
-      <div className=" flex-1 flex justify-end mr-10 mb-2">
+      <div className=" flex-1 flex justify-end lg:mr-10 mb-2">
         <Link href={"/post/new"}>
           <Button>Post Course</Button>
         </Link>
