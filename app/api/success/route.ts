@@ -1,11 +1,8 @@
-import { auth } from "@/auth";
 import prisma from "@/lib/db/db";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
-  const session = await auth();
-  const userId = session?.user?.id;
   const searchParams = req.nextUrl.searchParams;
   const base64 = searchParams.get("data");
   if (!base64)
@@ -13,7 +10,7 @@ export const GET = async (req: NextRequest) => {
   const decoded = Buffer.from(base64, "base64").toString("utf-8");
   const decodedObject = JSON.parse(decoded);
   console.log(decodedObject);
-  const { transaction_code, transaction_uuid, signature } = decodedObject;
+  const { transaction_code, transaction_uuid } = decodedObject;
   if (!transaction_uuid || !transaction_code)
     return NextResponse.json({
       message: "error, transaction id not found in params.",

@@ -1,12 +1,9 @@
-import { auth } from "@/auth";
 import prisma from "@/lib/db/db";
 import React from "react";
 import CommentElement from "./commentElement";
 import { RiAlertFill } from "react-icons/ri";
 
 const Comment = async ({ videoId }: { videoId: string }) => {
-  const session = await auth();
-  const userId = session?.user?.id;
   const comments = await prisma.comment.findMany({
     where: { videoId, parentId: null },
     include: {

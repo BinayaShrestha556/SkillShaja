@@ -1,11 +1,11 @@
 "use client";
 import axios from "axios";
-import { Heart } from "lucide-react";
+
 import React, { useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { BiLike } from "react-icons/bi";
+
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
-import { set } from "zod";
+
 const LikeCourse = ({
   courseId,
   size,

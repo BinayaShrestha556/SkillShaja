@@ -17,7 +17,6 @@ import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Social } from "./socials";
-import { redirect } from "next/navigation";
 
 const RegisterForm = () => {
   const [pending, setTransition] = useTransition();
@@ -36,15 +35,19 @@ const RegisterForm = () => {
     console.log("hello");
     setErr("");
     setSuccess("");
-    const data = {
-      ...values,
-    };
+
     setTransition(async () => {
-      await signUp(data).then((data) => {
-        !data.success ? setErr(data.message) : setSuccess(data.message);
-      });
-      redirect("/signin");
+      const data = await signUp(values);
+      if (data.success) setSuccess(data?.message);
+      else setErr(data?.message);
     });
+    // setTransition(async () => {
+
+    //   await signUp(data).then((data) => {
+    //     !data.success ? setErr(data.message) : setSuccess(data.message);
+    //   });
+    //   redirect("/signin");
+    // });
   };
   return (
     <div className="p-5 w-full border rounded-md shadow-md ">
@@ -99,7 +102,7 @@ const RegisterForm = () => {
             Register
           </Button>
           <div className="w-full mt-4 ">
-            <Social admin={true} />
+            <Social />
           </div>
         </form>
       </Form>

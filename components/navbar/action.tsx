@@ -7,6 +7,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { BiUserCircle } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react"; // Import useState and useEffect
+import { IconType } from "react-icons";
 
 const NavbarActions = () => {
   const session = useSession();
@@ -14,7 +15,9 @@ const NavbarActions = () => {
   const router = useRouter();
 
   // State to hold dropdown options
-  const [dropDownOptions, setDropDownOptions] = useState<any>([]);
+  const [dropDownOptions, setDropDownOptions] = useState<
+    { name: string; icon: IconType; href?: string; onClick: () => void }[]
+  >([]);
 
   useEffect(() => {
     // Update dropdown options whenever the user object changes

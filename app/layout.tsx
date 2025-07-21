@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
+
 import Navbar from "@/components/navbar/main";
 import Footer from "@/components/footer/footer";
+import Ai from "@/components/ai/AI";
 
 export const metadata: Metadata = {
   title: "SkillSajha",
@@ -22,6 +23,7 @@ export default async function RootLayout({
         <SessionProvider>
           <Navbar />
           <main className="  min-h-screen">{children}</main>
+          <Ai />
           <Footer />
         </SessionProvider>
       </body>

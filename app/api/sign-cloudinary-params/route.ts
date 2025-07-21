@@ -40,11 +40,20 @@ export async function GET(req: NextRequest) {
       );
 
     if (media === "video") {
-      if (!userId)
+      if (!userId) {
+        const thumbnail = cloudinary.url(`${videoId}.jpg`, {
+          resource_type: "video",
+          type: "authenticated",
+
+          sign_url: true,
+          secure: true,
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+        });
         return NextResponse.json(
-          { message: "Not logged in" },
-          { status: 403, statusText: "login first" }
+          { url: " ", message: "not authorized", thumbnail },
+          { status: 200 }
         );
+      }
       if (!courseId) {
         const url = cloudinary.url(videoId, {
           resource_type: media,

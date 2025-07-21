@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ courses, users });
   } catch (error) {
+    console.error("Error fetching search results:", error);
     return NextResponse.json({ error: "Server error." }, { status: 500 });
   }
 }

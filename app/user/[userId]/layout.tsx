@@ -1,9 +1,7 @@
 import { auth } from "@/auth";
 import Nav from "@/components/profile/nav";
-import { Button } from "@/components/ui/button";
+
 import prisma from "@/lib/db/db";
-import { cn } from "@/lib/utils";
-import { headers } from "next/headers";
 
 import Image from "next/image";
 import Link from "next/link";

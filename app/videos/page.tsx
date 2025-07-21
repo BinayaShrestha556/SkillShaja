@@ -10,7 +10,11 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import React from "react";
 
-const Page = async ({ searchParams }: { searchParams: { id: string } }) => {
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ id: string }>;
+}) => {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore
     .getAll()

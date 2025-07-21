@@ -10,11 +10,7 @@ interface UploadProps {
   onChange: (e: string, thumbnailUrl?: string) => void;
   media: "video" | "image";
 }
-export default function VideoUpload({
-  accessMode,
-  media,
-  onChange,
-}: UploadProps) {
+export default function VideoUpload({ media, onChange }: UploadProps) {
   const [uploadStatus, setUploadStatus] = useState(false);
 
   // Determine the folder based on accessMode
@@ -36,10 +32,9 @@ export default function VideoUpload({
     console.log(url.url);
     return url.url;
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUploadEvents = async (event: any) => {
-    console.log(event);
     if (media === "image") {
-      console.log(event.info.public_id);
       onChange(event.info.public_id);
       const image = await getUrl(event.info.public_id, "image");
       setImageUrl(image);

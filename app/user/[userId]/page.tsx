@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import Grid from "@/components/explore/grid";
 import prisma from "@/lib/db/db";
 import React from "react";

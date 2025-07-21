@@ -1,21 +1,13 @@
 "use client";
 
 import { Comment } from "@prisma/client";
-import axios from "axios";
-import { LoaderIcon, UserCircle2Icon } from "lucide-react";
+
+import { UserCircle2Icon } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import {
-  BiDislike,
-  BiDownArrow,
-  BiLike,
-  BiSolidDislike,
-  BiSolidLike,
-} from "react-icons/bi";
+import React, { useState } from "react";
+
 import { RiArrowDropDownLine } from "react-icons/ri";
 import PostComment from "./post-comment";
-import { useRouter } from "next/navigation";
 
 interface CommentElementProps {
   comment: Comment & {
@@ -43,7 +35,7 @@ const CommentElement: React.FC<CommentElementProps> = ({
 }) => {
   const { content, id, owner } = comment;
   const [isRepliesOpen, setIsRepliesOpen] = useState(false);
-  const [replyLoading, setReplyLoading] = useState(false);
+
   const clickReplies = async () => {
     setIsRepliesOpen((current) => !current);
   };
@@ -88,21 +80,14 @@ const CommentElement: React.FC<CommentElementProps> = ({
         )}
         {isRepliesOpen && (
           <div className="w-full mt-2 flex flex-col gap-3">
-            {!replyLoading ? (
-              comment.replies?.map((comment) => (
-                <CommentElement
-                  videoId={videoId}
-                  comment={comment}
-                  parent={false}
-                  key={comment.id}
-                />
-              ))
-            ) : (
-              <p className="flex text-sm items-center gap-2">
-                <AiOutlineLoading3Quarters className="animate-spin duration-300" />{" "}
-                loading replies...
-              </p>
-            )}
+            {comment.replies?.map((comment) => (
+              <CommentElement
+                videoId={videoId}
+                comment={comment}
+                parent={false}
+                key={comment.id}
+              />
+            ))}
           </div>
         )}
       </div>

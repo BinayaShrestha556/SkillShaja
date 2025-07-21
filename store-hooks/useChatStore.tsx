@@ -1,0 +1,25 @@
+import { create } from "zustand";
+
+type Message = {
+  sender: "user" | "bot";
+  message: string;
+};
+
+type ChatStore = {
+  messages: Message[];
+  addMessage: (msg: Message) => void;
+  clearMessages: () => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+};
+
+export const useChatStore = create<ChatStore>((set) => ({
+  messages: [],
+  addMessage: (msg) =>
+    set((state) => ({
+      messages: [...state.messages, msg],
+    })),
+  clearMessages: () => set({ messages: [] }),
+  loading: false,
+  setLoading: (loading) => set({ loading }),
+}));

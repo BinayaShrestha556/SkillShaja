@@ -3,7 +3,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { fetchUrl, formatTimeAgo } from "@/lib/utils";
-import { Heart } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import AddToWatchLaterButton from "@/components/course/addToWatchLaterButton";
 import VideoGrid from "@/components/course/videos/VideoGrid";
@@ -55,7 +55,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   return (
     <div className="w-[calc(100%-1.75rem)] md:w-[90%] m-auto mt-10">
       <div className="w-full md:w-[80%] m-auto flex  flex-col lg:flex-row gap-10 justify-end rounded-3xl ">
-        <div className="relative  w-full lg:w-[60%] h-96 rounded-2xl">
+        <div className="relative  w-full lg:w-[60%] aspect-[16/11] rounded-2xl">
           {thumbnailUrl && (
             <Image
               src={thumbnailUrl.url}
@@ -71,7 +71,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             {course.description}
           </p>
           <div className="relative flex gap-1 items-center pr-2">
-            <div className="relative rounded-xl border ">
+            <div className="relative rounded-xl border p-1 ">
               <Image
                 width={35}
                 height={35}

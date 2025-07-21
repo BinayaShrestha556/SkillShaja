@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 
 import { useSearchParams } from "next/navigation";
-export const Social = ({ admin }: { admin: boolean }) => {
+export const Social = () => {
   const params = useSearchParams();
   const callbackUrl = params.get("redirect");
   const onClick = (providers: "google" | "github") => {

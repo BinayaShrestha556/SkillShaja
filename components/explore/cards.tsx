@@ -13,10 +13,10 @@ const Cards: React.FC<
   createdAt,
   description,
   id,
-  imageId,
+
   name,
   paid,
-  updatedAt,
+
   userId,
   image,
   user,

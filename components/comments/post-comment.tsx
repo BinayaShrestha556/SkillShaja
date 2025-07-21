@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Form, FormControl, FormField, FormItem } from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 interface PostCommentProps {

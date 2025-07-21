@@ -42,12 +42,11 @@ const LoginForm = () => {
     setErr("");
     setSuccess("");
 
-    setTransition(
-      async () =>
-        await login(values).then((data) => {
-          data.success ? setSuccess(data?.message) : setErr(data?.message);
-        })
-    );
+    setTransition(async () => {
+      const data = await login(values);
+      if (data.success) setSuccess(data?.message);
+      else setErr(data?.message);
+    });
   };
   return (
     <div className="p-1 lg:p-5 w-full rounded-md shadow-md ">
@@ -109,7 +108,7 @@ const LoginForm = () => {
             Login
           </Button>
           <div className="mt-4">
-            <Social admin={true} />
+            <Social />
           </div>
         </form>
       </Form>

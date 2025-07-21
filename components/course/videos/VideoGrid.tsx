@@ -45,14 +45,11 @@ const VideoGrid: React.FC<VideoGridProps> = ({
         })
       );
       setThumbnails(Object.fromEntries(entries));
-      console.log(thumbnails);
     };
 
     loadThumbnails();
   }, [videos]);
-  useEffect(() => {
-    console.log(thumbnails);
-  }, [thumbnails]);
+
   return (
     // <div className="w-full flex flex-wrap gap-6  mt-4 relative">
     //   <div className="w-10 text-xl h-10  z-40 border shadow absolute top-1/3 -left-3  rounded-full bg-accent/70 text accent-accent-foreground flex items-center justify-center">
