@@ -4,6 +4,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { Video } from "@prisma/client";
@@ -117,6 +119,8 @@ const VideoGrid: React.FC<VideoGridProps> = ({
           </CarouselItem>
         ))}
       </CarouselContent>
+      <CarouselNext className="-right-8" />
+      <CarouselPrevious className="-left-8" />
     </Carousel>
   );
 };

@@ -1,8 +1,8 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useTransition } from "react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
-import { z } from "zod";
+import { set, z } from "zod";
 import {
   Form,
   FormControl,
@@ -18,6 +18,7 @@ import { PlusCircle } from "lucide-react";
 import { formSchema } from "@/lib/schema";
 import { upload } from "@/server-actions/videoUpload";
 import { Switch } from "../ui/switch";
+import { useRouter } from "next/navigation";
 
 const UploadForm = () => {
   const [page, setPage] = React.useState(1); // 1: course info, 2: videos
@@ -47,16 +48,27 @@ const UploadForm = () => {
     const valid = await form.trigger(["title", "description", "thumbnail"]);
     if (valid) setPage(2);
   };
-
+  const [message, setMessage] = React.useState<string | undefined>(undefined);
   // Optionally validate videos before submit
   const handlePrev = () => setPage(1);
+  const [pending, setTransition] = useTransition();
+  const router = useRouter();
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+    setTransition(async () => {
+      const { message, success } = await upload(values);
+      if (success) {
+        setMessage(message);
+        router.push("/explore");
+      }
+    });
+  };
 
   return (
     <div className="w-1/2 p-3 m-auto h-auto">
       <Form {...form}>
         <form
-          className="flex flex-col gap-4"
-          onSubmit={form.handleSubmit(upload)}
+          className="flex flex-col gap-8"
+          onSubmit={form.handleSubmit(handleSubmit)}
         >
           {page === 1 && (
             <>
@@ -82,7 +94,8 @@ const UploadForm = () => {
                   <FormItem>
                     <FormLabel>Course Description</FormLabel>
                     <FormControl>
-                      <Input
+                      <textarea
+                        className="w-full h-24 p-2 border rounded-md text-sm bg-white shadow "
                         placeholder="Enter a short description..."
                         {...field}
                       />
@@ -269,6 +282,7 @@ const UploadForm = () => {
                   Add video
                 </div>
               </div>
+              <p className="text-red-500">{message}</p>
               <div className="flex gap-2">
                 <Button
                   type="button"
@@ -278,7 +292,7 @@ const UploadForm = () => {
                 >
                   Previous
                 </Button>
-                <Button type="submit" className="flex-1">
+                <Button disabled={pending} type="submit" className="flex-1">
                   Submit Course
                 </Button>
               </div>
