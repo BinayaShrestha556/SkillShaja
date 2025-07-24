@@ -147,10 +147,10 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full text-white py-2 rounded-md flex items-center justify-center gap-2 ${
+            className={`w-full text-black py-2 rounded-md flex items-center justify-center gap-2 ${
               isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700 cursor-pointer"
+                ? "bg-primary/50 cursor-not-allowed"
+                : "bg-primary hover:bg-primary/80 cursor-pointer"
             }`}
           >
             {isSubmitting ? (
@@ -159,11 +159,11 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
               <>
                 Pay with
                 <Image
-                  src="/images/esewa_logo.png"
+                  src="/esewa_payment.png"
                   alt="eSewa"
                   width={60}
                   height={20}
-                  className="h-5 w-auto"
+                  className="h-5 w-auto rounded-full"
                 />
               </>
             )}

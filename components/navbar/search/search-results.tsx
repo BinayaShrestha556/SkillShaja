@@ -49,7 +49,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({
     <div
       onClick={(event) => event.stopPropagation()}
       className={cn(
-        `absolute top-8 -left-48   w-96 bg-white border rounded-md shadow-lg z-50`,
+        `absolute top-12 -left-48 md:left-0   w-96 bg-white border rounded-md shadow-lg z-50`,
         {
           "hidden lg:block left-0 top-[125%]": hidden,
         }
@@ -69,7 +69,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({
                     <Image
                       src={courseImages[course.id] || "/placeholder.png"}
                       alt={course.name}
-                      fill
+                      height={36}
+                      width={56}
                       className="object-cover rounded-md"
                       sizes="56px"
                     />

@@ -64,7 +64,8 @@ const Search = () => {
         className={cn(
           "rounded-full p-5 transition backdrop-blur-xl lg:pl-12  bg-white border  ",
           {
-            " z-40 fixed right-0 opacity-100 md:block ": isOpen,
+            " z-40 fixed right-0 opacity-100 md:static md:w-80 md:right-auto md:z-30":
+              isOpen,
             "w-0 opacity-0 lg:opacity-100 lg:w-80 ": !isOpen,
           }
         )}
@@ -73,14 +74,14 @@ const Search = () => {
       {/* Search Icon */}
       <FaSearch
         onClick={() => setIsOpen(!isOpen)}
-        className="w-8 h-8 absolute left-2 md:right-2 p-1.5 cursor-pointer rounded-full bg-primary text-white z-30"
+        className="w-8 h-8 absolute left-1.5 md:right-2 p-1.5 cursor-pointer rounded-full bg-primary text-white z-30"
       />
 
       {/* Results */}
       {isOpen && q && (
         <>
           {loading ? (
-            <div className="absolute top-12 left-0 md:left-auto md:top-[125%] w-80 p-4 bg-white border rounded-md shadow-lg z-50">
+            <div className="absolute top-12  left-0 md:left-auto md:top-12 w-80 p-4 bg-white border rounded-md shadow-lg z-50">
               Loading...
             </div>
           ) : (

@@ -5,17 +5,6 @@ import { executeAction } from "@/lib/executeFn";
 import { formSchema } from "@/lib/schema";
 import { z } from "zod";
 
-type uploadProps = {
-  title: string;
-  videos: {
-    videoId: string;
-    description: string;
-    title: string;
-    thumbnail?: string;
-  }[];
-  description: string;
-  thumbnail?: string;
-};
 export const upload = async (object: z.infer<typeof formSchema>) => {
   return await executeAction({
     actionFn: async () => {
