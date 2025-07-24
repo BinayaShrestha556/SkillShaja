@@ -31,8 +31,8 @@ const PostComment: React.FC<PostCommentProps> = ({ videoId, parentId }) => {
   const onSubmit = (values: z.infer<typeof schema>) => {
     setTransition(async () => {
       await submitComments(values.content, videoId, parentId);
-      form.reset();
       router.refresh();
+      form.reset();
     });
   };
   return (

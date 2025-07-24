@@ -50,6 +50,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
       },
     });
   }
+  let isVideoVisible;
 
   const thumbnailUrl = await fetchUrl(course.image.url, "image");
   return (
@@ -137,6 +138,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
       <div className=" md:w-[80%] m-auto bg-white rounded-3xl p-5 shadow mt-10">
         <h2 className="text-xl font-semibold">Videos</h2>
+
         <VideoGrid courseId={course.id} videos={course.videos} />
       </div>
     </div>

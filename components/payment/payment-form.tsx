@@ -42,6 +42,7 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
       }
 
       const { paymentUrl, params } = await response.json();
+      console.log(params);
 
       // Create hidden form for eSewa submission
       const form = document.createElement("form");
@@ -74,7 +75,6 @@ const EsewaPayment: React.FC<EsewaPaymentProps> = ({ amount, courseId }) => {
 
       document.body.appendChild(form);
       form.submit();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error("Payment Error:", err);
       setError(err.message || "Payment initiation failed");

@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import Comment from "@/components/comments/comment";
+import CommentLoading from "@/components/comments/loading";
 import PostComment from "@/components/comments/post-comment";
 import VideoGrid from "@/components/course/videos/VideoGrid";
 import SecureVideoPlayer from "@/components/video";
@@ -7,8 +9,8 @@ import prisma from "@/lib/db/db";
 import { fetchUrl } from "@/lib/utils";
 
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
-import React from "react";
+import { notFound, redirect } from "next/navigation";
+import React, { Suspense } from "react";
 
 const Page = async ({
   searchParams,
@@ -16,6 +18,9 @@ const Page = async ({
   searchParams: Promise<{ id: string }>;
 }) => {
   const cookieStore = await cookies();
+  const session = await auth();
+  const userId = session?.user.id;
+  if (!userId) redirect("/signin");
   const cookieHeader = cookieStore
     .getAll()
     .map((c) => `${c.name}=${c.value}`)
@@ -37,6 +42,17 @@ const Page = async ({
     },
   });
   if (!video) return notFound();
+  const course = await prisma.course.findUnique({
+    where: { id: video.course.id },
+  });
+
+  const payment = await prisma.payment.findFirst({
+    where: {
+      productId: video.courseId,
+      userId: userId,
+    },
+  });
+  if (!payment && course?.paid) redirect(`/payment?courseId=${video.courseId}`);
   const videoUrl = await fetchUrl(
     video.videoUrl,
     "video",
@@ -66,7 +82,9 @@ const Page = async ({
       </div>
       <div className="lg:w-[70%] ww-[calc(100%-12px)] m-auto p-3 rounded-3xl shadow bg-card mt-10">
         <PostComment videoId={id} />
-        <Comment videoId={id} />
+        <Suspense fallback={<CommentLoading />}>
+          <Comment videoId={id} />
+        </Suspense>
       </div>
     </div>
   );

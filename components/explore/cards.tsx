@@ -66,13 +66,10 @@ const Cards: React.FC<
             />
           </div>
 
-          <Link
-            href={`/user/${userId}`}
-            className="text-muted-foreground text-sm font-semibold flex-grow"
-          >
+          <p className="text-muted-foreground text-sm font-semibold flex-grow">
             {" "}
             {user.name}{" "}
-          </Link>
+          </p>
 
           <div className="flex justify-between gap-0.5">
             <span className="text-muted-foreground text-sm mr-1 hidden md:block">

@@ -95,11 +95,20 @@ export async function GET(req: NextRequest) {
             status: "SUCCESS",
           },
         });
-        if (!payment)
+        if (!payment) {
+          const thumbnail = cloudinary.url(`${videoId}.jpg`, {
+            resource_type: "video",
+            type: "authenticated",
+
+            sign_url: true,
+            secure: true,
+            expires_at: Math.floor(Date.now() / 1000) + 3600,
+          });
           return NextResponse.json(
-            { message: "Not authenticated to watch this video" },
-            { status: 403, statusText: "not paid for this course" }
+            { url: " ", message: "not authorized", thumbnail },
+            { status: 200 }
           );
+        }
       }
     }
     const expiresAt = Math.floor(Date.now() / 1000) + 3600;

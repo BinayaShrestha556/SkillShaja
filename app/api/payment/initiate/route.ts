@@ -70,7 +70,6 @@ export async function POST(req: Request) {
         signed_field_names: "total_amount,transaction_uuid,product_code",
       },
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Payment error:", error);
     return NextResponse.json(

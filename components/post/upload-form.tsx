@@ -55,10 +55,15 @@ const UploadForm = () => {
   const router = useRouter();
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     setTransition(async () => {
-      const { message, success } = await upload(values);
-      if (success) {
-        setMessage(message);
-        router.push("/explore");
+      try {
+        const data = await upload(values);
+        const { message, success } = data;
+        if (!success) {
+          setMessage(message);
+          router.push("/explore");
+        }
+      } catch (error) {
+        console.log(error);
       }
     });
   };
